@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login.SejongLoginActivity">
+
+    <ImageView
+        android:id="@+id/splash_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
+        android:src="@drawable/sejong_image1" />
+
+    <TextView
+        android:id="@+id/splash_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/splash_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="세종대학교 교내 스터디 플랫폼(?)"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/splash_tv1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:text="ㅇ ㅇ ㅇ ㅇ ㅇ"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+</RelativeLayout>

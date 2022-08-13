@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="150dp"
+    android:layout_gravity="center_horizontal|center_vertical"
+    android:background="@drawable/login_dialog_background">
+
+    <TextView
+        android:id="@+id/sejong_login_dialog_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/sejong_login_dialog_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/sejong_login_dialog_btn"
+        app:layout_constraintTop_toTopOf="@+id/sejong_login_dialog_btn"></LinearLayout>
+
+    <Button
+        android:id="@+id/sejong_login_dialog_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:text="확인"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
