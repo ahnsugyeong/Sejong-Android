@@ -33,7 +33,7 @@
         app:counterEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_input_id"
+            android:id="@+id/login_input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="이메일을 입력해주세요."

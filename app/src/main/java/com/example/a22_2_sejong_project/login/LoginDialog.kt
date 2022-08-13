@@ -25,7 +25,8 @@ class LoginDialog(val context: Context, val str : String) {
         dialog.sejong_login_dialog_btn.setOnClickListener {
             dialog.dismiss()
             if (str == "교내 학생 인증에 성공했습니다.") {
-                context.startActivity(Intent(context,AppLoginActivity::class.java))
+                val intent = Intent(context,AppLoginActivity::class.java)
+                context.startActivity(intent)
             }
         }
     }

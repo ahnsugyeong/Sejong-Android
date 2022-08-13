@@ -45,22 +45,26 @@ class SejongLoginActivity : AppCompatActivity() {
                 .userAgent(userAgent)
                 .cookies(loginForm.cookies())
                 .execute()
+            val asd = Jsoup.connect("http://classic.sejong.ac.kr/userCertStatus.do")
+                .timeout(3000)
+                .method(Connection.Method.GET)
+                .cookies(loginForm.cookies())
+                .execute()
+
+            Log.d("TAG",asd.body().toString())
 
             var dialogText = "교내 학생 인증에 실패했습니다."
             if (homePage.body().contains("접속자 정보")){
                 dialogText = "교내 학생 인증에 성공했습니다."
             }
 
-            Log.d("TAG",homePage.body().toString())
             Handler(Looper.getMainLooper()).postDelayed(Runnable() {
                 run() {
                     val dialog = LoginDialog(this,dialogText)
                     dialog.showDialog()
-
                 }
             },0)
         }.start()
-
     }
     override fun onDestroy() {
         _Binding = null

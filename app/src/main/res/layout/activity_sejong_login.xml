@@ -25,11 +25,18 @@
         android:layout_marginTop="60dp"
         app:srcCompat="@drawable/sejong_image2" />
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="*학사정보 시스템 로그인과 동일합니다."
+        android:textSize="12sp" />
+
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
         app:counterEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -60,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="*세종대학교 대양휴머니티칼리지 기반 교내 학생 로그인 인증입니다. "
+        android:text="*세종대학교 대양휴머니티칼리지 기반 교내 학생 인증 로그인입니다. "
         android:textSize="12sp" />
 
     <Button
