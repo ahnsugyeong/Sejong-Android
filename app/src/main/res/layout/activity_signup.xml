@@ -70,12 +70,14 @@
         android:layout_marginTop="10dp"
         app:counterEnabled="false">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signup_input_id"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/signup_student_id_tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="학번"
-            android:inputType="text" />
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="16sp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

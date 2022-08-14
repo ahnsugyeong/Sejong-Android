@@ -1,24 +1,28 @@
 package com.example.a22_2_sejong_project.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.example.a22_2_sejong_project.MainActivity
 import com.example.a22_2_sejong_project.R
 import com.example.a22_2_sejong_project.databinding.ActivitySejongLoginBinding
+import com.google.firebase.auth.FirebaseAuth
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 
 class SejongLoginActivity : AppCompatActivity() {
     private var _Binding: ActivitySejongLoginBinding? = null
     private val binding get() = _Binding!!
+    private var auth : FirebaseAuth? = null
     val userAgent = R.string.clawling_userAgent.toString()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _Binding = ActivitySejongLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        auth = FirebaseAuth.getInstance()
 
         binding.loginVerifyBtn.setOnClickListener {
             sejongVerify()
@@ -45,13 +49,13 @@ class SejongLoginActivity : AppCompatActivity() {
                 .userAgent(userAgent)
                 .cookies(loginForm.cookies())
                 .execute()
-            val asd = Jsoup.connect("http://classic.sejong.ac.kr/userCertStatus.do")
-                .timeout(3000)
-                .method(Connection.Method.GET)
-                .cookies(loginForm.cookies())
-                .execute()
-
-            Log.d("TAG",asd.body().toString())
+//            val asd = Jsoup.connect("http://classic.sejong.ac.kr/userCertStatus.do")
+//                .timeout(3000)
+//                .method(Connection.Method.GET)
+//                .cookies(loginForm.cookies())
+//                .execute()
+//
+//            Log.d("TAG",asd.body().toString())
 
             var dialogText = "교내 학생 인증에 실패했습니다."
             if (homePage.body().contains("접속자 정보")){
@@ -60,11 +64,19 @@ class SejongLoginActivity : AppCompatActivity() {
 
             Handler(Looper.getMainLooper()).postDelayed(Runnable() {
                 run() {
-                    val dialog = LoginDialog(this,dialogText)
+                    val studentId = binding.loginInputStdId.text.toString()
+                    val dialog = LoginDialog(this,dialogText,studentId)
                     dialog.showDialog()
                 }
             },0)
         }.start()
+    }
+    override fun onStart() {
+        super.onStart()
+        auth!!.currentUser?.apply {
+            startActivity(Intent(applicationContext,MainActivity::class.java))
+            finish()
+        }
     }
     override fun onDestroy() {
         _Binding = null
