@@ -5,25 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="36dp"
-    android:paddingTop="70dp"
-    android:paddingRight="36dp"
     tools:context=".login.SejongLoginActivity">
+
+    <ImageView
+        android:id="@+id/signup_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/ic_back" />
 
     <TextView
         android:id="@+id/textvewwq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="26dp"
         android:text="사용자 정보 입력"
+        android:textColor="#000000"
         android:textSize="20dp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="4dp"
+        android:text="*ㅇㅇㅇ 로그인 계정입니다."
+        android:textSize="12sp" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:counterEnabled="false">
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="36dp"
+        app:boxStrokeColor="@color/main_blue"
+        app:counterEnabled="false"
+        app:hintTextColor="@color/main_blue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_input_email"
@@ -37,8 +58,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:counterEnabled="false">
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="36dp"
+        app:boxStrokeColor="@color/main_blue"
+        app:counterEnabled="false"
+        app:hintTextColor="@color/main_blue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_input_password"
@@ -52,8 +77,31 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:counterEnabled="false">
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="36dp"
+        app:boxStrokeColor="@color/main_blue"
+        app:counterEnabled="false"
+        app:hintTextColor="@color/main_blue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signup_input_password_re"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="비밀번호 확인"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="36dp"
+        app:boxStrokeColor="@color/main_blue"
+        app:counterEnabled="false"
+        app:hintTextColor="@color/main_blue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_input_name"
@@ -63,42 +111,134 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:counterEnabled="false">
-
-        <TextView
-            android:id="@+id/signup_student_id_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textSize="16sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:counterEnabled="false">
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="36dp"
+        app:boxStrokeColor="@color/main_blue"
+        app:counterEnabled="false"
+        app:hintTextColor="@color/main_blue">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signup_input_major"
+            android:id="@+id/signup_input_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="학과"
+            android:hint="닉네임"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="20dp"
+        android:text="*소속"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/signup_student_id_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="4dp"
+        android:text="학번"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/siginup_college_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="36dp"
+        android:background="@drawable/rec_rad_8dp"
+        android:backgroundTint="#F3F3F3"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/signup_college_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:text="단과대학 선택"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dropdown" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signup_major_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="36dp"
+        android:background="@drawable/rec_rad_8dp"
+        android:backgroundTint="#F3F3F3"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/signup_major_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:text="전공 선택"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dropdown" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
         android:id="@+id/signup_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
         android:layout_marginTop="100dp"
-        android:text="회원가입" />
+        android:layout_marginRight="36dp"
+        android:background="@drawable/rec_rad_8dp"
+        android:gravity="center"
+        android:paddingTop="4dp"
+        android:paddingBottom="6dp"
+        android:text="회원가입"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="*회원가입에 어려움이 있나요?"
+        android:textSize="12sp" />
 </LinearLayout>

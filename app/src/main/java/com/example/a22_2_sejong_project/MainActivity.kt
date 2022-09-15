@@ -22,15 +22,11 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         // 바텀내비게이션 세팅
         binding.mainBottomNav.setOnNavigationItemSelectedListener(this)
         binding.mainBottomNav.selectedItemId = R.id.nav_item1
-
-
-
     }
     override fun onDestroy() {
         _Binding = null
         super.onDestroy()
     }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.nav_item1 -> {

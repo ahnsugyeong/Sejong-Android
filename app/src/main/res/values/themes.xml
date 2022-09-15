@@ -13,4 +13,10 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="editTextStyle" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/main_blue</item>  // unFocus 상태일때 밑줄 색.
+        <item name="boxStrokeColor">@color/main_blue</item> // Focus 상태일때 밑줄 색.
+        <item name="android:textCursorDrawable">@color/main_blue</item>  // cursor 색.
+        <item name="android:textColorHint">@color/main_blue</item>  // hint 색
+    </style>
 </resources>

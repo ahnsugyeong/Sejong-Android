@@ -4,20 +4,22 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1035" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/drawable-v24/rec_rad_8dp.xml" value="0.1065" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1125" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/drawable/login_dialog_background.xml" value="0.1125" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/activity_app_login.xml" value="0.264" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/activity_app_login.xml" value="0.2" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/activity_login.xml" value="0.4" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/activity_sejong_login.xml" value="0.264" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/activity_signup.xml" value="0.264" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/activity_signup.xml" value="0.176" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/activity_splash.xml" value="0.264" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/fragment_Home.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/fragment_board.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/fragment_chat.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/fragment_home.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/fragment_my_page.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/fragment_program.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/login_dialog.xml" value="0.536" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/login_dialog.xml" value="0.6" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/menu/nav_menu.xml" value="0.20726495726495728" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.216" />
         <entry key="app/src/main/res/layout/activity_add_board_article.xml" value="0.20885416666666667" />
