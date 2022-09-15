@@ -15,12 +15,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="회원가입 및 로그인"
+        android:textColor="#000000"
         android:textSize="20dp"
         android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         app:srcCompat="@drawable/sejong_image2" />
@@ -29,8 +30,10 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
-        app:counterEnabled="false">
+        android:layout_marginTop="100dp"
+        app:boxStrokeColor="@color/main_blue"
+        app:counterEnabled="false"
+        app:hintTextColor="@color/main_blue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_input_email"
@@ -44,8 +47,10 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        app:counterEnabled="false">
+        android:layout_marginTop="10dp"
+        app:boxStrokeColor="@color/main_blue"
+        app:counterEnabled="false"
+        app:hintTextColor="@color/main_blue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_input_password"
@@ -55,17 +60,36 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/login_btn"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="로그인" />
+        android:layout_marginTop="6dp"
+        android:text="*최초 로그인의 경우 회원가입을 진행해주세요."
+        android:textSize="12sp" />
 
-    <Button
-        android:id="@+id/login_signup_btn"
+    <TextView
+        android:id="@+id/app_login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="회원가입" />
+        android:layout_marginTop="100dp"
+        android:background="@drawable/rec_rad_8dp"
+        android:gravity="center"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:text="로그인"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/app_signup_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rec_rad_8dp"
+        android:gravity="center"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:text="회원가입"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 </LinearLayout>

@@ -19,14 +19,14 @@ class AppLoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
 
-        binding.loginSignupBtn.setOnClickListener {
+        binding.appSignupBtn.setOnClickListener {
             val studentId = intent.getStringExtra("studentId").toString()
             val intent = Intent(this,SignupActivity::class.java)
             intent.putExtra("studentId",studentId)
             Log.d("TAG",studentId)
             startActivity(intent)
         }
-        binding.loginBtn.setOnClickListener {
+        binding.appLoginBtn.setOnClickListener {
             signin()
         }
     }
@@ -43,12 +43,12 @@ class AppLoginActivity : AppCompatActivity() {
                         }
                         Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(this, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "이메일 및 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
         else {
-            Toast.makeText(this, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "이메일 및 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
     override fun onDestroy() {

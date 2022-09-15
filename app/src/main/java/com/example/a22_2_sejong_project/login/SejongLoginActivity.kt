@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import com.example.a22_2_sejong_project.MainActivity
 import com.example.a22_2_sejong_project.R
 import com.example.a22_2_sejong_project.databinding.ActivitySejongLoginBinding
@@ -25,10 +26,9 @@ class SejongLoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         binding.loginVerifyBtn.setOnClickListener {
+            binding.sejongLoginPr.visibility = View.VISIBLE
             sejongVerify()
         }
-
-
     }
     // 세종대학교 대양휴머니티칼리지 Jsoup lib 이용 크롤링
     fun sejongVerify() {
@@ -49,13 +49,6 @@ class SejongLoginActivity : AppCompatActivity() {
                 .userAgent(userAgent)
                 .cookies(loginForm.cookies())
                 .execute()
-//            val asd = Jsoup.connect("http://classic.sejong.ac.kr/userCertStatus.do")
-//                .timeout(3000)
-//                .method(Connection.Method.GET)
-//                .cookies(loginForm.cookies())
-//                .execute()
-//
-//            Log.d("TAG",asd.body().toString())
 
             var dialogText = "교내 학생 인증에 실패했습니다."
             if (homePage.body().contains("접속자 정보")){
@@ -70,6 +63,7 @@ class SejongLoginActivity : AppCompatActivity() {
                 }
             },0)
         }.start()
+        binding.sejongLoginPr.visibility = View.GONE
     }
     override fun onStart() {
         super.onStart()
