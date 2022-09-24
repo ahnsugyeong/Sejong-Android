@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.a22_2_sejong_project.R
-import com.example.a22_2_sejong_project.databinding.FragmentBoardBinding
+
 import com.example.a22_2_sejong_project.databinding.FragmentChatBinding
 import com.example.a22_2_sejong_project.databinding.FragmentMyPageBinding
 
