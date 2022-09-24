@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.example.a22_2_sejong_project.R
 import com.example.a22_2_sejong_project.databinding.FragmentMyPageBinding
 import com.example.a22_2_sejong_project.databinding.FragmentProgramBinding
+import org.jsoup.Jsoup
 
 class ProgramFragment : Fragment() {
     private var _binding: FragmentProgramBinding? = null
@@ -15,7 +16,20 @@ class ProgramFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentProgramBinding.inflate(inflater, container, false)
 
+//        Thread(Runnable {
+//            val url = "https://do.sejong.ac.kr/ko/program/career"
+//            val doc = Jsoup.connect(url).get()
+//            val data = doc.select()
+//        })
+
+
+
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
     override fun onDestroyView() {
         super.onDestroyView()
