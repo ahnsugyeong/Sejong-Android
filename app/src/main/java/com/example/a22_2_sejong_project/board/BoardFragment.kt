@@ -102,10 +102,14 @@ class BoardFragment : Fragment() {
             // timestamp
             viewholder.item_board_main_timestamp.text = boardContentDTOs!![position].timestamp
 
-
+            // commentCount
             viewholder.item_board_main_commentNum.text = boardContentDTOs!![position].commentCount.toString()
 
+            // favoriteCount
             viewholder.item_board_main_heartNum.text = boardContentDTOs!![position].favoriteCount.toString()
+
+            // nickname
+            // viewholder.item_board_main_userName.text = boardContentDTOs!![position].nickname
 
             // 게시물 클릭시
             viewholder.item_board_main_object.setOnClickListener { v ->

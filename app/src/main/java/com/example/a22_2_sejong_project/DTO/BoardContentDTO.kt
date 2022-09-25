@@ -4,7 +4,8 @@ data class BoardContentDTO(
     var title: String? = null,
     var description: String? = null,
     var uid: String? = null,
-    var userId: String? = null, // 이용해서 profile image, nickname 뽑아오기
+    var stdId: String? = null, // 이용해서 profile image, nickname 뽑아오기
+    var nickname: String? = null,
     var timestamp: String? = null,
     var favoriteCount: Int = 0,
     var commentCount: Int = 0,
