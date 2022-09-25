@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.WindowManager
-import androidx.core.content.ContextCompat.startActivity
 import com.example.a22_2_sejong_project.R
 import kotlinx.android.synthetic.main.login_dialog.*
 

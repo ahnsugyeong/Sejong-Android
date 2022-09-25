@@ -54,6 +54,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'org.jsoup:jsoup:1.11.3'
 
+    //크롤링
+    implementation 'org.jsoup:jsoup:1.13.1'
+    implementation ("com.github.bumptech.glide:glide:4.11.0")
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'

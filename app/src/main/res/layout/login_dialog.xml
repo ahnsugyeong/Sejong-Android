@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
         android:text="확인"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
