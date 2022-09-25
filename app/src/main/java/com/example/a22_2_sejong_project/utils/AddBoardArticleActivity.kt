@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
 import com.example.a22_2_sejong_project.R
+import com.example.a22_2_sejong_project.board.BoardFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -49,6 +50,5 @@ class AddBoardArticleActivity : AppCompatActivity() {
 
         setResult(Activity.RESULT_OK)
         finish()
-
     }
 }

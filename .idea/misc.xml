@@ -17,7 +17,6 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/fragment_home.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/fragment_my_page.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/fragment_program.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/login_dialog.xml" value="0.152" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/layout/login_dialog.xml" value="0.536" />
         <entry key="..\:/Users/User/AndroidStudioProjects/222_Sejong_Project/app/src/main/res/menu/nav_menu.xml" value="0.20726495726495728" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2165" />
@@ -26,6 +25,7 @@
         <entry key="app/src/main/res/drawable/login_dialog_background.xml" value="0.2165" />
         <entry key="app/src/main/res/layout/activity_add_board_article.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_board_comment.xml" value="0.36770833333333336" />
+        <entry key="app/src/main/res/layout/activity_board_detail.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_board.xml" value="0.1" />

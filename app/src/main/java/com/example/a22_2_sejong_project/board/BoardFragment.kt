@@ -6,13 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
+import com.example.a22_2_sejong_project.R
 
 import com.example.a22_2_sejong_project.databinding.FragmentBoardMainBinding
 import com.example.a22_2_sejong_project.utils.AddBoardArticleActivity
-import com.example.a22_2_sejong_project.utils.BoardCommentActivity
+import com.example.a22_2_sejong_project.utils.BoardDetailActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_board_main.view.*
@@ -39,6 +41,15 @@ class BoardFragment : Fragment() {
             startActivity(Intent(activity, AddBoardArticleActivity::class.java))
         }
 
+        // 게시글 간 구분선 추가
+        val dividerItemDecoration =
+            DividerItemDecoration(binding.root.board_main_recyclerView.context, LinearLayoutManager(context).orientation)
+        binding.root.board_main_recyclerView.addItemDecoration(dividerItemDecoration)
+
+
+
+
+
         return binding.root
     }
 
@@ -46,15 +57,27 @@ class BoardFragment : Fragment() {
         var boardContentDTOs: ArrayList<BoardContentDTO> = arrayListOf()
         var contentUIdList: ArrayList<String> = arrayListOf()
 
+        init {
+            firestore?.collection("boardContents")?.orderBy("timestamp")
+                ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    boardContentDTOs.clear()
+                    contentUIdList.clear()
+
+                    // Sometimes, This code return null of querySnapshot when it signout
+                    if (querySnapshot == null) return@addSnapshotListener
+
+                    for (snapshot in querySnapshot!!.documents) {
+                        var item = snapshot.toObject(BoardContentDTO::class.java)
+                        boardContentDTOs.add(item!!)
+                        contentUIdList.add(snapshot.id)
+                    }
+                    notifyDataSetChanged()
+                }
+        }
+
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             var view = LayoutInflater.from(parent.context).inflate(com.example.a22_2_sejong_project.R.layout.item_board_main, parent, false)
-
-
-            // example
-            var boardContentDTO = BoardContentDTO()
-            boardContentDTO.title = "hello"
-            boardContentDTO.description = "world!!!"
-            boardContentDTOs.add(boardContentDTO)
 
             return CustomViewHolder(view)
         }
@@ -62,6 +85,12 @@ class BoardFragment : Fragment() {
         inner class CustomViewHolder(view: View): RecyclerView.ViewHolder(view)
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+            // 간격 설정
+            val layoutParams = holder.itemView.layoutParams
+            layoutParams.height = 300
+            holder.itemView.requestLayout()
+
             var viewholder = (holder as CustomViewHolder).itemView
 
             // title
@@ -71,13 +100,19 @@ class BoardFragment : Fragment() {
             viewholder.item_board_main_description.text = boardContentDTOs!![position].description
 
             // timestamp
-            viewholder.item_board_main_timestamp.text = System.currentTimeMillis().toString()
+            viewholder.item_board_main_timestamp.text = boardContentDTOs!![position].timestamp
+
+
+            viewholder.item_board_main_commentNum.text = boardContentDTOs!![position].commentCount.toString()
+
+            viewholder.item_board_main_heartNum.text = boardContentDTOs!![position].favoriteCount.toString()
 
             // 게시물 클릭시
             viewholder.item_board_main_object.setOnClickListener { v ->
-                var intent = Intent(v.context, BoardCommentActivity::class.java)
-                intent.putExtra("contentUid", contentUIdList[position])
-                intent.putExtra("destinationUid", boardContentDTOs[position].uid)
+                activity?.finish()
+                var intent = Intent(v.context, BoardDetailActivity::class.java)
+//                intent.putExtra("contentUid", contentUIdList[position])
+//                intent.putExtra("destinationUid", boardContentDTOs[position].uid)
                 startActivity(intent)
             }
 
