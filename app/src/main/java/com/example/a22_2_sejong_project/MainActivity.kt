@@ -3,6 +3,7 @@ package com.example.a22_2_sejong_project
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.core.app.ActivityCompat
 import com.example.a22_2_sejong_project.board.BoardFragment
 import com.example.a22_2_sejong_project.chat.ChatFragment
 import com.example.a22_2_sejong_project.databinding.ActivityMainBinding
@@ -10,6 +11,7 @@ import com.example.a22_2_sejong_project.home.HomeFragment
 import com.example.a22_2_sejong_project.mypage.MyPageFragment
 import com.example.a22_2_sejong_project.program.ProgramFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSelectedListener {
     private var _Binding: ActivityMainBinding? = null

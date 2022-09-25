@@ -2,22 +2,25 @@ package com.example.a22_2_sejong_project.board
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
-import com.example.a22_2_sejong_project.R
+
 import com.example.a22_2_sejong_project.databinding.FragmentBoardMainBinding
+import com.example.a22_2_sejong_project.utils.AddBoardArticleActivity
 import com.example.a22_2_sejong_project.utils.BoardCommentActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_board_main.view.*
 import kotlinx.android.synthetic.main.item_board_main.view.*
 
+
 class BoardFragment : Fragment() {
+    var fragmentView: View? = null
     var firestore: FirebaseFirestore? = null
     var uid: String? = null
 
@@ -25,12 +28,16 @@ class BoardFragment : Fragment() {
     private val binding get() = _binding!!
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentBoardMainBinding.inflate(inflater, container, false)
-
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
 
         binding.root.board_main_recyclerView.adapter = BoardRecyclerViewAdapter()
         binding.root.board_main_recyclerView.layoutManager = LinearLayoutManager(activity)
+
+        binding.root.add_article_activity_button.setOnClickListener {
+            activity?.finish()
+            startActivity(Intent(activity, AddBoardArticleActivity::class.java))
+        }
 
         return binding.root
     }
@@ -39,10 +46,16 @@ class BoardFragment : Fragment() {
         var boardContentDTOs: ArrayList<BoardContentDTO> = arrayListOf()
         var contentUIdList: ArrayList<String> = arrayListOf()
 
-
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_board_main, parent, false)
+            var view = LayoutInflater.from(parent.context).inflate(com.example.a22_2_sejong_project.R.layout.item_board_main, parent, false)
+
+
+            // example
+            var boardContentDTO = BoardContentDTO()
+            boardContentDTO.title = "hello"
+            boardContentDTO.description = "world!!!"
+            boardContentDTOs.add(boardContentDTO)
+
             return CustomViewHolder(view)
         }
 
@@ -80,4 +93,5 @@ class BoardFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

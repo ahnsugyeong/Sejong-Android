@@ -17,10 +17,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".AddBoardArticleActivity"
+            android:name=".utils.TestActivity"
             android:exported="false" />
         <activity
-            android:name=".BoardCommentActivity"
+            android:name=".utils.AddBoardArticleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".utils.BoardCommentActivity"
             android:exported="false" />
         <activity
             android:name=".login.SignupActivity"
