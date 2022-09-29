@@ -19,4 +19,9 @@
         <item name="android:textCursorDrawable">@color/main_blue</item>  // cursor 색.
         <item name="android:textColorHint">@color/main_blue</item>  // hint 색
     </style>
+
+
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorWhite</item>
+    </style>
 </resources>
