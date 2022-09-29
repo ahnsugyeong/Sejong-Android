@@ -10,14 +10,18 @@ import com.example.a22_2_sejong_project.home.HomeFragment
 import com.example.a22_2_sejong_project.mypage.MyPageFragment
 import com.example.a22_2_sejong_project.program.ProgramFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSelectedListener {
     private var _Binding: ActivityMainBinding? = null
     private val binding get() = _Binding!!
+    var auth : FirebaseAuth? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _Binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        auth = FirebaseAuth.getInstance()
 
         // 바텀내비게이션 세팅
         binding.mainBottomNav.setOnNavigationItemSelectedListener(this)
@@ -50,7 +54,12 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
                 return true
             }
             R.id.nav_item5 -> {
-                supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,MyPageFragment()).commit()
+                val frg = MyPageFragment()
+                val uid = auth?.currentUser?.uid
+                var bundle = Bundle()
+                bundle.putString("uid",uid)
+                frg.arguments = bundle
+                supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,frg).commit()
                 binding.mainTitleTv.text = "내정보"
                 return true
             }

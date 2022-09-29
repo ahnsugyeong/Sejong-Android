@@ -23,6 +23,7 @@ class SignupActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+
         binding.signupStudentIdTv.text = "학번 : " + intent.getStringExtra("studentId").toString()
         binding.signupBackBtn.setOnClickListener { finish() }
         binding.signupBtn.setOnClickListener {
@@ -112,7 +113,7 @@ class SignupActivity : AppCompatActivity() {
             "note" to null,
             "profileUrl" to null
         )
-        db?.collection("user")?.add(data)
+        db?.collection("user")?.document(auth?.currentUser?.uid!!)?.set(data)
             ?.addOnSuccessListener {
                 Log.d("TAG","유저정보 등록 성공")
             }

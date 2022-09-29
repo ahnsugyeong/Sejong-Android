@@ -1,6 +1,7 @@
 package com.example.a22_2_sejong_project.program
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +17,16 @@ class ProgramFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentProgramBinding.inflate(inflater, container, false)
 
-//        Thread(Runnable {
-//            val url = "https://do.sejong.ac.kr/ko/program/career"
-//            val doc = Jsoup.connect(url).get()
-//            val data = doc.select()
-//        })
+        Thread {
+            val url = "https://do.sejong.ac.kr/ko/program/learn"
+            val doc = Jsoup.connect(url).get()
+            val programList = doc
+                .select("ul.columns-4 b.title")
+//                .select("ul.columns-4 b.title")
+
+            Log.d("태그",programList.toString())
+
+        }.start()
 
 
 
