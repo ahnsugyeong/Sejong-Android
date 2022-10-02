@@ -1,23 +1,23 @@
 package com.example.a22_2_sejong_project.board
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
-import com.example.a22_2_sejong_project.R
+import com.example.a22_2_sejong_project.MainActivity
 
 import com.example.a22_2_sejong_project.databinding.FragmentBoardMainBinding
-import com.example.a22_2_sejong_project.utils.AddBoardArticleActivity
-import com.example.a22_2_sejong_project.utils.BoardDetailActivity
+import com.example.a22_2_sejong_project.utils.AddBoardArticleFragment
+import com.example.a22_2_sejong_project.utils.BoardDetailFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.fragment_board_main.view.*
+import kotlinx.android.synthetic.main.item_board_main.*
 import kotlinx.android.synthetic.main.item_board_main.view.*
 
 
@@ -28,7 +28,11 @@ class BoardFragment : Fragment() {
 
     private var _binding: FragmentBoardMainBinding? = null
     private val binding get() = _binding!!
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentBoardMainBinding.inflate(inflater, container, false)
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -37,31 +41,27 @@ class BoardFragment : Fragment() {
         binding.root.board_main_recyclerView.layoutManager = LinearLayoutManager(activity)
 
         binding.root.add_article_activity_button.setOnClickListener {
-            activity?.finish()
-            startActivity(Intent(activity, AddBoardArticleActivity::class.java))
+            (activity as MainActivity).replaceFragment(AddBoardArticleFragment())
         }
 
-        // 게시글 간 구분선 추가
-        val dividerItemDecoration =
-            DividerItemDecoration(binding.root.board_main_recyclerView.context, LinearLayoutManager(context).orientation)
-        binding.root.board_main_recyclerView.addItemDecoration(dividerItemDecoration)
-
-
-
-
+//        // 게시글 간 구분선 추가
+//        val dividerItemDecoration =
+//            DividerItemDecoration(binding.root.board_main_recyclerView.context, LinearLayoutManager(context).orientation)
+//        binding.root.board_main_recyclerView.addItemDecoration(dividerItemDecoration)
 
         return binding.root
     }
 
-    inner class BoardRecyclerViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    inner class BoardRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         var boardContentDTOs: ArrayList<BoardContentDTO> = arrayListOf()
         var contentUIdList: ArrayList<String> = arrayListOf()
 
         init {
-            firestore?.collection("boardContents")?.orderBy("timestamp")
+            firestore?.collection("boardContents")?.orderBy("timestamp", Query.Direction.DESCENDING)
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     boardContentDTOs.clear()
                     contentUIdList.clear()
+
 
                     // Sometimes, This code return null of querySnapshot when it signout
                     if (querySnapshot == null) return@addSnapshotListener
@@ -77,19 +77,20 @@ class BoardFragment : Fragment() {
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var view = LayoutInflater.from(parent.context).inflate(com.example.a22_2_sejong_project.R.layout.item_board_main, parent, false)
+            var view = LayoutInflater.from(parent.context)
+                .inflate(com.example.a22_2_sejong_project.R.layout.item_board_main, parent, false)
 
             return CustomViewHolder(view)
         }
 
-        inner class CustomViewHolder(view: View): RecyclerView.ViewHolder(view)
+        inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
             // 간격 설정
-            val layoutParams = holder.itemView.layoutParams
-            layoutParams.height = 300
-            holder.itemView.requestLayout()
+//            val layoutParams = holder.itemView.layoutParams
+//            layoutParams.height = "wrap_content"
+//            holder.itemView.requestLayout()
 
             var viewholder = (holder as CustomViewHolder).itemView
 
@@ -103,23 +104,41 @@ class BoardFragment : Fragment() {
             viewholder.item_board_main_timestamp.text = boardContentDTOs!![position].timestamp
 
             // commentCount
-            viewholder.item_board_main_commentNum.text = boardContentDTOs!![position].commentCount.toString()
+            viewholder.item_board_main_commentNum.text =
+                boardContentDTOs!![position].commentCount.toString()
 
             // favoriteCount
-            viewholder.item_board_main_heartNum.text = boardContentDTOs!![position].favoriteCount.toString()
+            viewholder.item_board_main_heartNum.text =
+                boardContentDTOs!![position].favoriteCount.toString()
 
             // nickname
             // viewholder.item_board_main_userName.text = boardContentDTOs!![position].nickname
 
+            // content type
+            var tmp = boardContentDTOs!![position].contentType
+            if (tmp == 1) viewholder.item_board_main_contentType.text = "모집"
+            else if (tmp == 2) viewholder.item_board_main_contentType.text = "참여"
+            else if (tmp == 3) viewholder.item_board_main_contentType.text = "기타"
+
+            // headcount
+            var totalHeadCount_tmp = boardContentDTOs!![position].totalHeadCount
+            var currentHeadCount_tmp = boardContentDTOs!![position].currentHeadCount
+            if (totalHeadCount_tmp == -1) viewholder.item_board_main_headCount.text = ""
+            else viewholder.item_board_main_headCount.text =
+                currentHeadCount_tmp.toString() + "/" + totalHeadCount_tmp.toString()
+
+
             // 게시물 클릭시
             viewholder.item_board_main_object.setOnClickListener { v ->
-                activity?.finish()
-                var intent = Intent(v.context, BoardDetailActivity::class.java)
-//                intent.putExtra("contentUid", contentUIdList[position])
-//                intent.putExtra("destinationUid", boardContentDTOs[position].uid)
-                startActivity(intent)
-            }
+                (activity as MainActivity).replaceFragment(BoardDetailFragment())
 
+
+//                activity?.finish()
+//                var intent = Intent(v.context, BoardDetailActivity::class.java)
+////                intent.putExtra("contentUid", contentUIdList[position])
+////                intent.putExtra("destinationUid", boardContentDTOs[position].uid)
+//                startActivity(intent)
+            }
         }
 
         override fun getItemCount(): Int {

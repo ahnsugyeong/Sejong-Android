@@ -5,20 +5,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".board.BoardFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/board_main_recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/board_tapLayout"
+        >
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#ffffff"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewPager"
+        app:layout_constraintTop_toBottomOf="@id/tab"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    </LinearLayout>
 
 
-    <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/board_main_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            ></androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+    <ImageButton
         android:id="@+id/add_article_activity_button"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:text="+"
-        android:textSize="40dp"
+        android:background="@drawable/add_article"
+        android:src="@drawable/add_article_img"
+
         />
 
 
