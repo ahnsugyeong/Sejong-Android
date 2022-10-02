@@ -33,7 +33,7 @@ class BoardFragment : Fragment() {
     var uid: String? = null
     var tapSelected: Int? = null
     var collectionPath: String = "boardCapstoneContents"
-    var bundle: Bundle? = null
+
 
     private var _binding: FragmentBoardMainBinding? = null
     private val binding get() = _binding!!
@@ -48,17 +48,33 @@ class BoardFragment : Fragment() {
 
         binding.root.board_main_recyclerView.adapter = BoardRecyclerViewAdapter()
         binding.root.board_main_recyclerView.layoutManager = LinearLayoutManager(activity)
+        val boardCategoryReturn = arguments?.getString("boardCategoryReturn")
+        var position = 0
+        if (boardCategoryReturn != null) {
+            collectionPath = boardCategoryReturn
+        }
+
+        when(boardCategoryReturn) {
+            "boardCapstoneContents" -> position = 0
+            "boardStudyContents" -> position = 1
+            "boardContestContents" -> position = 2
+            "boardMentorContents" -> position = 3
+            else -> 0
+        }
+        binding.root.board_tap.getTabAt(position)?.select()
+        (binding.root.board_main_recyclerView.adapter as BoardRecyclerViewAdapter).makeInitialView()
 
         binding.root.add_article_activity_button.setOnClickListener {
-
-            bundle = Bundle()
-            bundle!!.putString("boardCategory", collectionPath)
+            var bundle = Bundle()
+            bundle.putString("boardCategory", collectionPath)
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
             val addBoardArticleFragment = AddBoardArticleFragment()
             addBoardArticleFragment.arguments = bundle
             transaction.replace(R.id.main_container_layout, addBoardArticleFragment)
             transaction.commit()
         }
+
+
 
 //        // 게시글 간 구분선 추가
 //        val dividerItemDecoration =
@@ -145,6 +161,10 @@ class BoardFragment : Fragment() {
             if (totalHeadCount_tmp == -1) viewholder.item_board_main_headCount.text = ""
             else viewholder.item_board_main_headCount.text =
                 currentHeadCount_tmp.toString() + "/" + totalHeadCount_tmp.toString()
+
+            viewholder.item_board_main_headCount.setOnClickListener {
+                TODO("dialog 추가하기")
+            }
 
 
             // 게시물 클릭시

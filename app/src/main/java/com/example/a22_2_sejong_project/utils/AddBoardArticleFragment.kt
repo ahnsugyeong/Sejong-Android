@@ -24,7 +24,7 @@ class AddBoardArticleFragment : Fragment() {
     private var storage: FirebaseStorage? = null
     private var firestore: FirebaseFirestore? = null
     var auth: FirebaseAuth? = null
-    var type: Int? = null
+    var type: Int? = 0
     var rootView: View? = null
     var boardCategory: String? = null
 
@@ -85,11 +85,15 @@ class AddBoardArticleFragment : Fragment() {
         if(headcount_editText.toString() == "") boardContentDTO.totalHeadCount = -1
         else boardContentDTO.totalHeadCount = headcount_editText.text.toString().toInt()
 
-
-
-
         firestore?.collection(boardCategory!!)?.document()?.set(boardContentDTO)
-        (activity as MainActivity).replaceFragment(BoardFragment())
+
+        var bundle = Bundle()
+        bundle.putString("boardCategoryReturn", boardCategory)
+        val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+        val BoardArticleFragment = BoardFragment()
+        BoardArticleFragment.arguments = bundle
+        transaction.replace(R.id.main_container_layout, BoardArticleFragment)
+        transaction.commit()
     }
     override fun onDestroyView() {
         super.onDestroyView()
