@@ -13,10 +13,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class BoardDetailFragment : Fragment() {
-
+    var rootView: View? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -24,7 +23,13 @@ class BoardDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_board_detail, container, false)
+        rootView = inflater.inflate(R.layout.fragment_board_detail, container, false)
+        return rootView
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        rootView = null
     }
 
 }

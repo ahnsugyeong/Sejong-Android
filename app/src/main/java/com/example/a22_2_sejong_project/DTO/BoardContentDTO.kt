@@ -9,7 +9,7 @@ data class BoardContentDTO(
     var timestamp: String? = null,
     var favoriteCount: Int = 0,
     var commentCount: Int = 0,
-    var currentHeadCount: Int = 0, // 현재 모집된 인원
+    var currentHeadCount: Int = 1, // 현재 모집된 인원
     var totalHeadCount: Int? = null,   // 총 모집할 인원
     var favorites: MutableMap<String, Boolean> = HashMap(),
     var contentType: Int = 0  // 참여 or 모집

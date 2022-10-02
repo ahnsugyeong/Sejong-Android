@@ -25,12 +25,11 @@ class AddBoardArticleFragment : Fragment() {
     private var firestore: FirebaseFirestore? = null
     var auth: FirebaseAuth? = null
     var type: Int? = null
+    var rootView: View? = null
+    var boardCategory: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
 
     }
 
@@ -68,6 +67,7 @@ class AddBoardArticleFragment : Fragment() {
             }
         }
 
+        boardCategory = arguments?.getString("boardCategory")
 
         return rootView
     }
@@ -76,20 +76,23 @@ class AddBoardArticleFragment : Fragment() {
         var timestamp = SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(Date())
         var boardContentDTO = BoardContentDTO()
 
-        //var storageRef = storage?.reference?.child("boardContents")?.child(fileName)
 
         boardContentDTO.title = add_article_title.text.toString()
         boardContentDTO.description = add_article_description.text.toString()
         boardContentDTO.timestamp = timestamp
         boardContentDTO.contentType = type!!
 
-        if(headcount_editText.toString().equals("")) boardContentDTO.totalHeadCount = -1
+        if(headcount_editText.toString() == "") boardContentDTO.totalHeadCount = -1
         else boardContentDTO.totalHeadCount = headcount_editText.text.toString().toInt()
 
 
 
-        firestore?.collection("boardContents")?.document()?.set(boardContentDTO)
 
+        firestore?.collection(boardCategory!!)?.document()?.set(boardContentDTO)
         (activity as MainActivity).replaceFragment(BoardFragment())
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        rootView = null
     }
 }

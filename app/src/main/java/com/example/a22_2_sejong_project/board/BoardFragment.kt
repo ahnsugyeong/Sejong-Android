@@ -32,7 +32,8 @@ class BoardFragment : Fragment() {
     var firestore: FirebaseFirestore? = null
     var uid: String? = null
     var tapSelected: Int? = null
-    var collectionPath: String? = null
+    var collectionPath: String = "boardCapstoneContents"
+    var bundle: Bundle? = null
 
     private var _binding: FragmentBoardMainBinding? = null
     private val binding get() = _binding!!
@@ -49,7 +50,14 @@ class BoardFragment : Fragment() {
         binding.root.board_main_recyclerView.layoutManager = LinearLayoutManager(activity)
 
         binding.root.add_article_activity_button.setOnClickListener {
-            (activity as MainActivity).replaceFragment(AddBoardArticleFragment())
+
+            bundle = Bundle()
+            bundle!!.putString("boardCategory", collectionPath)
+            val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+            val addBoardArticleFragment = AddBoardArticleFragment()
+            addBoardArticleFragment.arguments = bundle
+            transaction.replace(R.id.main_container_layout, addBoardArticleFragment)
+            transaction.commit()
         }
 
 //        // 게시글 간 구분선 추가
@@ -72,9 +80,12 @@ class BoardFragment : Fragment() {
                     1 -> collectionPath = "boardStudyContents"
                     2 -> collectionPath = "boardContestContents"
                     3 -> collectionPath = "boardMentorContents"
+                    else -> collectionPath = "boardCapstoneContents"
                 }
+                (binding.root.board_main_recyclerView.adapter as BoardRecyclerViewAdapter).makeInitialView()
             }
         })
+
 
 
         return binding.root
@@ -85,22 +96,7 @@ class BoardFragment : Fragment() {
         var contentUIdList: ArrayList<String> = arrayListOf()
 
         init {
-            firestore?.collection("boardContents")?.orderBy("timestamp", Query.Direction.DESCENDING)
-                ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                    boardContentDTOs.clear()
-                    contentUIdList.clear()
-
-
-                    // Sometimes, This code return null of querySnapshot when it signout
-                    if (querySnapshot == null) return@addSnapshotListener
-
-                    for (snapshot in querySnapshot!!.documents) {
-                        var item = snapshot.toObject(BoardContentDTO::class.java)
-                        boardContentDTOs.add(item!!)
-                        contentUIdList.add(snapshot.id)
-                    }
-                    notifyDataSetChanged()
-                }
+            makeInitialView()
         }
 
 
@@ -114,11 +110,6 @@ class BoardFragment : Fragment() {
         inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
-            // 간격 설정
-//            val layoutParams = holder.itemView.layoutParams
-//            layoutParams.height = "wrap_content"
-//            holder.itemView.requestLayout()
 
             var viewholder = (holder as CustomViewHolder).itemView
 
@@ -160,17 +151,30 @@ class BoardFragment : Fragment() {
             viewholder.item_board_main_object.setOnClickListener { v ->
                 (activity as MainActivity).replaceFragment(BoardDetailFragment())
 
-
-//                activity?.finish()
-//                var intent = Intent(v.context, BoardDetailActivity::class.java)
-////                intent.putExtra("contentUid", contentUIdList[position])
-////                intent.putExtra("destinationUid", boardContentDTOs[position].uid)
-//                startActivity(intent)
             }
         }
 
         override fun getItemCount(): Int {
             return boardContentDTOs.size
+        }
+
+        fun makeInitialView(){
+            firestore?.collection(collectionPath)?.orderBy("timestamp", Query.Direction.DESCENDING)
+                ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    boardContentDTOs.clear()
+                    contentUIdList.clear()
+
+
+                    // Sometimes, This code return null of querySnapshot when it signout
+                    if (querySnapshot == null) return@addSnapshotListener
+
+                    for (snapshot in querySnapshot!!.documents) {
+                        var item = snapshot.toObject(BoardContentDTO::class.java)
+                        boardContentDTOs.add(item!!)
+                        contentUIdList.add(snapshot.id)
+                    }
+                    notifyDataSetChanged()
+                }
         }
 
     }
