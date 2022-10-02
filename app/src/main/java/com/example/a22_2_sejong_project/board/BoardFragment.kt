@@ -5,17 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
 import com.example.a22_2_sejong_project.MainActivity
+import com.example.a22_2_sejong_project.R
 
 import com.example.a22_2_sejong_project.databinding.FragmentBoardMainBinding
 import com.example.a22_2_sejong_project.utils.AddBoardArticleFragment
 import com.example.a22_2_sejong_project.utils.BoardDetailFragment
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import kotlinx.android.synthetic.main.fragment_board_main.*
 import kotlinx.android.synthetic.main.fragment_board_main.view.*
 import kotlinx.android.synthetic.main.item_board_main.*
 import kotlinx.android.synthetic.main.item_board_main.view.*
@@ -25,6 +31,8 @@ class BoardFragment : Fragment() {
     var fragmentView: View? = null
     var firestore: FirebaseFirestore? = null
     var uid: String? = null
+    var tapSelected: Int? = null
+    var collectionPath: String? = null
 
     private var _binding: FragmentBoardMainBinding? = null
     private val binding get() = _binding!!
@@ -48,6 +56,26 @@ class BoardFragment : Fragment() {
 //        val dividerItemDecoration =
 //            DividerItemDecoration(binding.root.board_main_recyclerView.context, LinearLayoutManager(context).orientation)
 //        binding.root.board_main_recyclerView.addItemDecoration(dividerItemDecoration)
+
+
+        binding.root.board_tap.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tapSelected = tab!!.position
+                when(tapSelected) {
+                    0 -> collectionPath = "boardCapstoneContents"
+                    1 -> collectionPath = "boardStudyContents"
+                    2 -> collectionPath = "boardContestContents"
+                    3 -> collectionPath = "boardMentorContents"
+                }
+            }
+        })
+
 
         return binding.root
     }
@@ -151,5 +179,4 @@ class BoardFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

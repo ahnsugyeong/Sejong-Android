@@ -7,4 +7,5 @@
     <string name="hint_article_description">글을 자유롭게 작성해주세요.</string>
     <string name="upload">업로드</string>
     <string name="comment">댓글</string>
+    <string name="mentor">멘토/멘티</string>
 </resources>
