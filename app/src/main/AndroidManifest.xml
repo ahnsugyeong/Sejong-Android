@@ -16,12 +16,6 @@
         android:theme="@style/Theme.222_Sejong_Project"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".utils.BoardDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".utils.AddBoardArticleActivity"
-            android:exported="false" />
 
         <activity
             android:name=".login.SignupActivity"

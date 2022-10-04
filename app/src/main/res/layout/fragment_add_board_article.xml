@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".utils.AddBoardArticleFragment">
+
+    <LinearLayout
+        android:id="@+id/toolbar_division"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivision"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/radio_button_group_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_division"
+
+        >
+
+        <RadioGroup
+            android:id="@+id/radio_button_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+
+
+            <RadioButton
+                android:id="@+id/radio_recruit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/main_blue"
+                android:checked="true"
+                android:text="모집" />
+
+            <RadioButton
+                android:id="@+id/radio_participate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:buttonTint="@color/main_blue"
+                android:text="참여" />
+
+            <RadioButton
+                android:id="@+id/radio_etc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:buttonTint="@color/main_blue"
+                android:text="기타" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/people_num_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radio_button_group_layout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        >
+
+        <TextView
+            android:id="@+id/headcount_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="모집 인원:"
+            android:textSize="16dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/headcount_textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:boxStrokeColor="@color/main_blue"
+            app:counterEnabled="false"
+            app:hintTextColor="@color/main_blue">
+
+            <EditText
+                android:id="@+id/headcount_editText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:inputType="number"
+                android:maxLength="3" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/article_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/people_num_layout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editText_title"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radio_button_group_layout"
+            app:boxStrokeColor="@color/main_blue"
+            app:counterEnabled="false"
+            app:hintTextColor="@color/main_blue">
+
+            <EditText
+                android:id="@+id/add_article_title"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/hint_article_title"
+                android:privateImeOptions="defaultInputted=korean" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editText_description"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText_title"
+            android:layout_marginTop="10dp"
+            app:boxStrokeColor="@color/main_blue"
+            app:counterEnabled="false"
+            app:hintTextColor="@color/main_blue">
+
+
+            <EditText
+                android:id="@+id/add_article_description"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:hint="@string/hint_article_description"
+                android:privateImeOptions="defaultInputted=korean"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/add_article_btn_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/article_layout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/main_blue"
+        android:text="upload"
+        android:textColor="@color/colorWhite"
+        android:textSize="18dp" />
+
+
+</RelativeLayout>
