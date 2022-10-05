@@ -17,16 +17,18 @@ class ProgramFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentProgramBinding.inflate(inflater, container, false)
 
-        Thread {
-            val url = "https://do.sejong.ac.kr/ko/program/learn"
-            val doc = Jsoup.connect(url).get()
-            val programList = doc
-                .select("ul.columns-4 b.title")
-//                .select("ul.columns-4 b.title")
-
-            Log.d("태그",programList.toString())
-
-        }.start()
+//        Thread {
+//            val url = "https://do.sejong.ac.kr/ko/program/major"
+//            val doc = Jsoup.connect(url).get()
+//            val programList = doc
+//                .select("div[data-module=eco][data-role=item] > a > div.content > div.department")
+//
+////            for (i in programList) {
+////                Log.d("태그",i.select("i.department").text())
+////            }
+//            Log.d("태그",programList.toString())
+//
+//        }.start()
 
 
 

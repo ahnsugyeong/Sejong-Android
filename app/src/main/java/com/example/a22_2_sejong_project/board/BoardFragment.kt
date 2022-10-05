@@ -75,7 +75,6 @@ class BoardFragment : Fragment() {
         }
 
 
-
 //        // 게시글 간 구분선 추가
 //        val dividerItemDecoration =
 //            DividerItemDecoration(binding.root.board_main_recyclerView.context, LinearLayoutManager(context).orientation)
@@ -126,7 +125,6 @@ class BoardFragment : Fragment() {
         inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
             var viewholder = (holder as CustomViewHolder).itemView
 
             // title
