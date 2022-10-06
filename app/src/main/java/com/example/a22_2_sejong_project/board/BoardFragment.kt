@@ -34,7 +34,6 @@ class BoardFragment : Fragment() {
     var tapSelected: Int? = null
     var collectionPath: String = "boardCapstoneContents"
 
-
     private var _binding: FragmentBoardMainBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -54,7 +53,7 @@ class BoardFragment : Fragment() {
             collectionPath = boardCategoryReturn
         }
 
-        when(boardCategoryReturn) {
+        when (boardCategoryReturn) {
             "boardCapstoneContents" -> position = 0
             "boardStudyContents" -> position = 1
             "boardContestContents" -> position = 2
@@ -75,14 +74,13 @@ class BoardFragment : Fragment() {
         }
 
 
-
 //        // 게시글 간 구분선 추가
 //        val dividerItemDecoration =
 //            DividerItemDecoration(binding.root.board_main_recyclerView.context, LinearLayoutManager(context).orientation)
 //        binding.root.board_main_recyclerView.addItemDecoration(dividerItemDecoration)
 
 
-        binding.root.board_tap.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        binding.root.board_tap.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
 
@@ -91,7 +89,7 @@ class BoardFragment : Fragment() {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tapSelected = tab!!.position
-                when(tapSelected) {
+                when (tapSelected) {
                     0 -> collectionPath = "boardCapstoneContents"
                     1 -> collectionPath = "boardStudyContents"
                     2 -> collectionPath = "boardContestContents"
@@ -129,6 +127,10 @@ class BoardFragment : Fragment() {
 
             var viewholder = (holder as CustomViewHolder).itemView
 
+            // userId
+
+
+
             // title
             viewholder.item_board_main_title.text = boardContentDTOs!![position].title
 
@@ -165,12 +167,14 @@ class BoardFragment : Fragment() {
             viewholder.item_board_main_headCount.setOnClickListener {
                 TODO("dialog 추가하기")
             }
-
-
             // 게시물 클릭시
             viewholder.item_board_main_object.setOnClickListener { v ->
-                (activity as MainActivity).replaceFragment(BoardDetailFragment())
-
+                var fragment = BoardDetailFragment()
+                var bundle = Bundle()
+                bundle.putString("destinationUid", boardContentDTOs[position].uId)
+                bundle.putString("userId", boardContentDTOs[position].userId)
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_container_layout, fragment)?.commit()
             }
         }
 
@@ -178,14 +182,12 @@ class BoardFragment : Fragment() {
             return boardContentDTOs.size
         }
 
-        fun makeInitialView(){
+        fun makeInitialView() {
             firestore?.collection(collectionPath)?.orderBy("timestamp", Query.Direction.DESCENDING)
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     boardContentDTOs.clear()
                     contentUIdList.clear()
 
-
-                    // Sometimes, This code return null of querySnapshot when it signout
                     if (querySnapshot == null) return@addSnapshotListener
 
                     for (snapshot in querySnapshot!!.documents) {

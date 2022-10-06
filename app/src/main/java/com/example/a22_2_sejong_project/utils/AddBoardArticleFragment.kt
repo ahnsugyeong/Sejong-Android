@@ -81,6 +81,7 @@ class AddBoardArticleFragment : Fragment() {
         boardContentDTO.description = add_article_description.text.toString()
         boardContentDTO.timestamp = timestamp
         boardContentDTO.contentType = type!!
+        boardContentDTO.userId = auth?.currentUser?.email
 
         if(headcount_editText.toString() == "") boardContentDTO.totalHeadCount = -1
         else boardContentDTO.totalHeadCount = headcount_editText.text.toString().toInt()
