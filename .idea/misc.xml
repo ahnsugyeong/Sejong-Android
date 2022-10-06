@@ -40,7 +40,7 @@
         <entry key="app/src/main/res/layout/fragment_board.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_board_capstone.xml" value="0.32083333333333336" />
         <entry key="app/src/main/res/layout/fragment_board_contest.xml" value="0.32083333333333336" />
-        <entry key="app/src/main/res/layout/fragment_board_detail.xml" value="0.13636363636363635" />
+        <entry key="app/src/main/res/layout/fragment_board_detail.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_board_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_board_mentor.xml" value="0.32083333333333336" />
         <entry key="app/src/main/res/layout/fragment_board_study.xml" value="0.32083333333333336" />

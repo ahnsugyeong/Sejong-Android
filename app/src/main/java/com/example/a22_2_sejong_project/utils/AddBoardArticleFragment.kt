@@ -92,11 +92,12 @@ class AddBoardArticleFragment : Fragment() {
                 val userDTO = it.result.toObject(UserDTO::class.java)
                 boardContentDTO?.uId = userDTO?.uid
                 boardContentDTO?.nickname = userDTO?.nickname
+                boardContentDTO?.contentId = boardContentDTO?.uId + boardContentDTO?.timestamp
 
                 if(headcount_editText.toString() == "") boardContentDTO?.totalHeadCount = -1
                 else boardContentDTO?.totalHeadCount = headcount_editText.text.toString().toInt()
 
-                firestore?.collection(boardCategory!!)?.document()?.set(boardContentDTO!!)
+                firestore?.collection(boardCategory!!)?.document(boardContentDTO?.contentId!!)?.set(boardContentDTO!!)
 
                 var bundle = Bundle()
                 bundle.putString("boardCategoryReturn", boardCategory)

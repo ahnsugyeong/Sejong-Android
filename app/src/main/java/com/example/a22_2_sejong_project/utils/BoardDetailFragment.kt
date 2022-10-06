@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
+import com.example.a22_2_sejong_project.DTO.UserDTO
 import com.example.a22_2_sejong_project.R
 import com.example.a22_2_sejong_project.databinding.FragmentBoardDetailBinding
 import com.example.a22_2_sejong_project.databinding.FragmentBoardMainBinding
@@ -27,10 +28,11 @@ import java.util.*
 class BoardDetailFragment : Fragment() {
     var contentUid: String? = null
     var destinationUid: String? = null
+    var destinationContentUid: String? = null
     var firestore: FirebaseFirestore? = null
     var auth: FirebaseAuth? = null
     var uid: String? = null
-
+    var boardCategory: String? = null
 
     private var _binding: FragmentBoardDetailBinding? = null
     private val binding get() = _binding!!
@@ -43,7 +45,27 @@ class BoardDetailFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
         auth = FirebaseAuth.getInstance()
+        destinationUid = arguments?.getString("destinationUid")
+        destinationContentUid = arguments?.getString("destinationContentUid")
+        boardCategory = arguments?.getString("boardCategory")
 
+        firestore?.collection("user")?.document(destinationUid!!)?.get()?.addOnCompleteListener {
+            if(it.isSuccessful) {
+                var userDTO = it.result.toObject(UserDTO::class.java)
+                binding.root.board_detail_userName.text = userDTO?.nickname
+                binding.root.board_detail_major.text = userDTO?.major
+            }
+        }
+
+        firestore?.collection(boardCategory!!)?.document(destinationContentUid!!)?.get()?.addOnCompleteListener {
+            if(it.isSuccessful) {
+                var boardContentDTO = it.result.toObject(BoardContentDTO::class.java)
+                binding.root.board_detail_title.text = boardContentDTO?.title
+                binding.root.board_detail_description.text = boardContentDTO?.description
+                binding.root.board_detail_timestamp.text = boardContentDTO?.timestamp
+                binding.root.board_detail_headCount.text = boardContentDTO?.currentHeadCount.toString() + "/" + boardContentDTO?.totalHeadCount.toString()
+            }
+        }
 
         binding.root.board_detail_group.setOnClickListener {
             val menuList = arrayOf("오종석", "김해린", "안수경")

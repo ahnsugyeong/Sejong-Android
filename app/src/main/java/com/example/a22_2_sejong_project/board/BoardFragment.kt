@@ -127,7 +127,6 @@ class BoardFragment : Fragment() {
             var viewholder = (holder as CustomViewHolder).itemView
 
             // userId
-            println("board content dto nickname = "+ boardContentDTOs!![position].nickname)
             viewholder.item_board_main_userName.text = boardContentDTOs!![position].nickname
 
             // title
@@ -163,15 +162,16 @@ class BoardFragment : Fragment() {
             else viewholder.item_board_main_headCount.text =
                 currentHeadCount_tmp.toString() + "/" + totalHeadCount_tmp.toString()
 
-            viewholder.item_board_main_headCount.setOnClickListener {
-                TODO("dialog 추가하기")
-            }
             // 게시물 클릭시
             viewholder.item_board_main_object.setOnClickListener { v ->
                 var fragment = BoardDetailFragment()
                 var bundle = Bundle()
+
+                bundle.putString("destinationContentUid", boardContentDTOs[position].contentId)
                 bundle.putString("destinationUid", boardContentDTOs[position].uId)
                 bundle.putString("userId", boardContentDTOs[position].userId)
+                bundle.putString("boardCategory", collectionPath)
+
                 fragment.arguments = bundle
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_container_layout, fragment)?.commit()
             }
