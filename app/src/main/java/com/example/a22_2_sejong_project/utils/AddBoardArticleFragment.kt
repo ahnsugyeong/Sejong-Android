@@ -105,7 +105,8 @@ class AddBoardArticleFragment : Fragment() {
                 val BoardArticleFragment = BoardFragment()
                 BoardArticleFragment.arguments = bundle
                 transaction.replace(R.id.main_container_layout, BoardArticleFragment)
-                transaction.commit()
+                    .addToBackStack(null)
+                    .commit()
             }
         }
 

@@ -11,6 +11,7 @@ import com.example.a22_2_sejong_project.databinding.ActivityMainBinding
 import com.example.a22_2_sejong_project.home.HomeFragment
 import com.example.a22_2_sejong_project.mypage.MyPageFragment
 import com.example.a22_2_sejong_project.program.ProgramFragment
+import com.example.a22_2_sejong_project.utils.AddBoardArticleFragment
 import com.example.a22_2_sejong_project.utils.BoardDetailFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
     private var _Binding: ActivityMainBinding? = null
     private val binding get() = _Binding!!
     var auth : FirebaseAuth? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _Binding = ActivityMainBinding.inflate(layoutInflater)
@@ -43,7 +45,9 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
                 return true
             }
             R.id.nav_item2 -> {
-                supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,BoardFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,BoardFragment())
+                    .addToBackStack(null)
+                    .commit()
                 binding.mainTitleTv.text = "게시판"
                 return true
             }
@@ -70,10 +74,5 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         }
         return false
     }
-
-    fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,fragment).commit()
-    }
-
 
 }
