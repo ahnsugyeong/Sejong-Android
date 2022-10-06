@@ -55,7 +55,7 @@ class SejongLoginActivity : AppCompatActivity() {
                 dialogText = "교내 학생 인증에 성공했습니다."
             }
 
-            Handler(Looper.getMainLooper()).postDelayed(Runnable() {
+            Handler(Looper.getMainLooper()).postDelayed(Runnable()   {
                 run() {
                     val studentId = binding.loginInputStdId.text.toString()
                     val dialog = LoginDialog(this,dialogText,studentId)

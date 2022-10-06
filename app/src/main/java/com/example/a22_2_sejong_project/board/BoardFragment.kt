@@ -124,7 +124,6 @@ class BoardFragment : Fragment() {
         inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
             var viewholder = (holder as CustomViewHolder).itemView
 
             // userId
