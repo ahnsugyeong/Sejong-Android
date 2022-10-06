@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
                 return true
             }
             R.id.nav_item2 -> {
-                supportFragmentManager.beginTransaction().add(R.id.main_container_layout,BoardFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,BoardFragment()).commit()
                 binding.mainTitleTv.text = "게시판"
                 return true
             }

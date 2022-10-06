@@ -127,8 +127,8 @@ class BoardFragment : Fragment() {
             var viewholder = (holder as CustomViewHolder).itemView
 
             // userId
-
-
+            println("board content dto nickname = "+ boardContentDTOs!![position].nickname)
+            viewholder.item_board_main_userName.text = boardContentDTOs!![position].nickname
 
             // title
             viewholder.item_board_main_title.text = boardContentDTOs!![position].title
