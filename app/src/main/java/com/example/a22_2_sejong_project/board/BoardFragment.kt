@@ -34,7 +34,6 @@ class BoardFragment : Fragment() {
     var tapSelected: Int? = null
     var collectionPath: String = "boardCapstoneContents"
 
-
     private var _binding: FragmentBoardMainBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -54,7 +53,7 @@ class BoardFragment : Fragment() {
             collectionPath = boardCategoryReturn
         }
 
-        when(boardCategoryReturn) {
+        when (boardCategoryReturn) {
             "boardCapstoneContents" -> position = 0
             "boardStudyContents" -> position = 1
             "boardContestContents" -> position = 2
@@ -71,7 +70,8 @@ class BoardFragment : Fragment() {
             val addBoardArticleFragment = AddBoardArticleFragment()
             addBoardArticleFragment.arguments = bundle
             transaction.replace(R.id.main_container_layout, addBoardArticleFragment)
-            transaction.commit()
+                .addToBackStack(null)
+                .commit()
         }
 
 
@@ -81,7 +81,7 @@ class BoardFragment : Fragment() {
 //        binding.root.board_main_recyclerView.addItemDecoration(dividerItemDecoration)
 
 
-        binding.root.board_tap.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        binding.root.board_tap.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
 
@@ -90,7 +90,7 @@ class BoardFragment : Fragment() {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tapSelected = tab!!.position
-                when(tapSelected) {
+                when (tapSelected) {
                     0 -> collectionPath = "boardCapstoneContents"
                     1 -> collectionPath = "boardStudyContents"
                     2 -> collectionPath = "boardContestContents"
@@ -127,6 +127,9 @@ class BoardFragment : Fragment() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var viewholder = (holder as CustomViewHolder).itemView
 
+            // userId
+            viewholder.item_board_main_userName.text = boardContentDTOs!![position].nickname
+
             // title
             viewholder.item_board_main_title.text = boardContentDTOs!![position].title
 
@@ -160,15 +163,18 @@ class BoardFragment : Fragment() {
             else viewholder.item_board_main_headCount.text =
                 currentHeadCount_tmp.toString() + "/" + totalHeadCount_tmp.toString()
 
-            viewholder.item_board_main_headCount.setOnClickListener {
-                TODO("dialog 추가하기")
-            }
-
-
             // 게시물 클릭시
             viewholder.item_board_main_object.setOnClickListener { v ->
-                (activity as MainActivity).replaceFragment(BoardDetailFragment())
+                var fragment = BoardDetailFragment()
+                var bundle = Bundle()
 
+                bundle.putString("destinationContentUid", boardContentDTOs[position].contentId)
+                bundle.putString("destinationUid", boardContentDTOs[position].uId)
+                bundle.putString("userId", boardContentDTOs[position].userId)
+                bundle.putString("boardCategory", collectionPath)
+
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.main_container_layout, fragment)?.commit()
             }
         }
 
@@ -176,14 +182,12 @@ class BoardFragment : Fragment() {
             return boardContentDTOs.size
         }
 
-        fun makeInitialView(){
+        fun makeInitialView() {
             firestore?.collection(collectionPath)?.orderBy("timestamp", Query.Direction.DESCENDING)
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     boardContentDTOs.clear()
                     contentUIdList.clear()
 
-
-                    // Sometimes, This code return null of querySnapshot when it signout
                     if (querySnapshot == null) return@addSnapshotListener
 
                     for (snapshot in querySnapshot!!.documents) {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
+import com.example.a22_2_sejong_project.DTO.UserDTO
 import com.example.a22_2_sejong_project.MainActivity
 import com.example.a22_2_sejong_project.R
 import com.example.a22_2_sejong_project.board.BoardFragment
@@ -27,6 +28,8 @@ class AddBoardArticleFragment : Fragment() {
     var type: Int? = 0
     var rootView: View? = null
     var boardCategory: String? = null
+    var uid: String? = null
+    var boardContentDTO: BoardContentDTO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +48,7 @@ class AddBoardArticleFragment : Fragment() {
         storage = FirebaseStorage.getInstance()
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
+        uid = auth?.currentUser?.uid
 
         rootView.add_article_btn_upload.setOnClickListener {
             contentUpload()
@@ -73,27 +77,40 @@ class AddBoardArticleFragment : Fragment() {
     }
 
     fun contentUpload() {
-        var timestamp = SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(Date())
-        var boardContentDTO = BoardContentDTO()
+
+        firestore?.collection("user")?.document(uid!!)?.get()?.addOnCompleteListener {
+            if(it.isSuccessful) {
+                var timestamp = SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(Date())
+                boardContentDTO = BoardContentDTO()
+                boardContentDTO?.title = add_article_title.text.toString()
+                boardContentDTO?.description = add_article_description.text.toString()
+                boardContentDTO?.timestamp = timestamp
+                boardContentDTO?.contentType = type!!
+                boardContentDTO?.userId = auth?.currentUser?.email
 
 
-        boardContentDTO.title = add_article_title.text.toString()
-        boardContentDTO.description = add_article_description.text.toString()
-        boardContentDTO.timestamp = timestamp
-        boardContentDTO.contentType = type!!
+                val userDTO = it.result.toObject(UserDTO::class.java)
+                boardContentDTO?.uId = userDTO?.uid
+                boardContentDTO?.nickname = userDTO?.nickname
+                boardContentDTO?.contentId = boardContentDTO?.uId + boardContentDTO?.timestamp
 
-        if(headcount_editText.toString() == "") boardContentDTO.totalHeadCount = -1
-        else boardContentDTO.totalHeadCount = headcount_editText.text.toString().toInt()
+                if(headcount_editText.toString() == "") boardContentDTO?.totalHeadCount = -1
+                else boardContentDTO?.totalHeadCount = headcount_editText.text.toString().toInt()
 
-        firestore?.collection(boardCategory!!)?.document()?.set(boardContentDTO)
+                firestore?.collection(boardCategory!!)?.document(boardContentDTO?.contentId!!)?.set(boardContentDTO!!)
 
-        var bundle = Bundle()
-        bundle.putString("boardCategoryReturn", boardCategory)
-        val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-        val BoardArticleFragment = BoardFragment()
-        BoardArticleFragment.arguments = bundle
-        transaction.replace(R.id.main_container_layout, BoardArticleFragment)
-        transaction.commit()
+                var bundle = Bundle()
+                bundle.putString("boardCategoryReturn", boardCategory)
+                val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
+                val BoardArticleFragment = BoardFragment()
+                BoardArticleFragment.arguments = bundle
+                transaction.replace(R.id.main_container_layout, BoardArticleFragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+
+
     }
     override fun onDestroyView() {
         super.onDestroyView()
