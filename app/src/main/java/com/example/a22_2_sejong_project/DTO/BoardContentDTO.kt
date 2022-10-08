@@ -14,7 +14,8 @@ data class BoardContentDTO(
     var favorites: MutableMap<String, Boolean> = HashMap(),
     var contentType: Int = 1,  // 참여 or 모집,
     var userId: String? = null,
-    var contentId: String? = null
+    var contentId: String? = null,
+    var groupMembers: ArrayList<String>? = null
 
 
 ) {

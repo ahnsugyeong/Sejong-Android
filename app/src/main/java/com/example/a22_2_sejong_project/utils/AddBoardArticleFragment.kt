@@ -87,7 +87,7 @@ class AddBoardArticleFragment : Fragment() {
                 boardContentDTO?.timestamp = timestamp
                 boardContentDTO?.contentType = type!!
                 boardContentDTO?.userId = auth?.currentUser?.email
-
+                boardContentDTO?.groupMembers?.add(uid!!)
 
                 val userDTO = it.result.toObject(UserDTO::class.java)
                 boardContentDTO?.uId = userDTO?.uid
