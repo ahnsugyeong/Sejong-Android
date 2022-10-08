@@ -100,6 +100,10 @@ class BoardDetailFragment : Fragment() {
                 })
             dialog.show()
         }
+        binding.boardDetailBackBtn.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
+        }
 
         return binding.root
     }

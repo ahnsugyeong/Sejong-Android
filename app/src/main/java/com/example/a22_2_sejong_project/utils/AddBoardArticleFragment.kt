@@ -71,6 +71,10 @@ class AddBoardArticleFragment : Fragment() {
             }
         }
 
+        rootView.board_article_back_btn.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
+        }
         boardCategory = arguments?.getString("boardCategory")
 
         return rootView

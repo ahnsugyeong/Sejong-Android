@@ -6,21 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".mypage.MyPageFragment">
 
+    <RelativeLayout
+        android:id="@+id/mypage_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="마이페이지"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/mypage_profile_box"
         android:layout_width="104dp"
         android:layout_height="104dp"
+        android:layout_below="@id/mypage_top_layout"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:background="@color/black">
 
         <ImageView
             android:id="@+id/mypage_profile_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/sample_image"
             android:layout_gravity="center"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:src="@drawable/sample_image" />
     </FrameLayout>
 
     <TextView

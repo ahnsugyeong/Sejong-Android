@@ -23,13 +23,11 @@ class HomeFragment : Fragment() {
             val url = "https://do.sejong.ac.kr/ko/program/major"
             val doc = Jsoup.connect(url).get()
             val programList = doc.select("li div.content")
-
-            Log.d("태그",programList.size.toString())
-            Log.d("태그",programList.select("b.title").text())
+            val posterUrl = doc.select("li div.cover")
 
             this@HomeFragment.activity?.runOnUiThread {
                 binding.homeDodreamRv.apply {
-                    adapter = DodreamRvAdapter(requireContext(), programList)
+                    adapter = DodreamRvAdapter(requireContext(), programList, posterUrl)
                     layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
                 }
             }
@@ -47,8 +45,10 @@ class HomeFragment : Fragment() {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://library.sejong.ac.kr/studyroom/Main.ax"))
             startActivity(intent)
         }
-
-
+        binding.homeCard2.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://do.sejong.ac.kr"))
+            startActivity(intent)
+        }
     }
     override fun onDestroyView() {
         super.onDestroyView()
