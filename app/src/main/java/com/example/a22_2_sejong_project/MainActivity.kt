@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         when(item.itemId) {
             R.id.nav_item1 -> {
                 supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,HomeFragment()).commit()
-                binding.mainTitleTv.text = "홈"
                 return true
             }
             R.id.nav_item2 -> {
@@ -51,17 +50,14 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
                     .addToBackStack(null)
                     .commit()
                 supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,BoardFragment()).commit()
-                binding.mainTitleTv.text = "게시판"
                 return true
             }
             R.id.nav_item3 -> {
                 supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,ChatFragment()).commit()
-                binding.mainTitleTv.text = "채팅"
                 return true
             }
             R.id.nav_item4 -> {
                 supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,ProgramFragment()).commit()
-                binding.mainTitleTv.text = "교내 프로그램"
                 return true
             }
             R.id.nav_item5 -> {
@@ -71,7 +67,6 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
                 bundle.putString("uid",uid)
                 frg.arguments = bundle
                 supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,frg).commit()
-                binding.mainTitleTv.text = "내정보"
                 return true
             }
         }

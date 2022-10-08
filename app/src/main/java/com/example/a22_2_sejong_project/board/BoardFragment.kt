@@ -70,7 +70,6 @@ class BoardFragment : Fragment() {
             val addBoardArticleFragment = AddBoardArticleFragment()
             addBoardArticleFragment.arguments = bundle
             transaction.replace(R.id.main_container_layout, addBoardArticleFragment)
-                .addToBackStack(null)
                 .commit()
         }
 
@@ -174,7 +173,7 @@ class BoardFragment : Fragment() {
                 bundle.putString("boardCategory", collectionPath)
 
                 fragment.arguments = bundle
-                activity?.supportFragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.main_container_layout, fragment)?.commit()
+                requireActivity().supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,fragment).addToBackStack(null).commit()
             }
         }
 
