@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginRight="10dp">
+    android:layout_marginRight="2dp"
+    android:background="@drawable/rec_rad_8dp"
+    android:backgroundTint="#FDFDFD"
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/item_home_dodream_iv"
@@ -33,6 +36,19 @@
         android:layout_alignStart="@id/item_home_dodream_iv"
         android:layout_alignEnd="@id/item_home_dodream_iv"
         android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="TextView"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/item_home_dodream_deadline_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_home_dodream_title_tv"
+        android:layout_alignStart="@id/item_home_dodream_iv"
+        android:layout_alignEnd="@id/item_home_dodream_iv"
+        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="TextView"
