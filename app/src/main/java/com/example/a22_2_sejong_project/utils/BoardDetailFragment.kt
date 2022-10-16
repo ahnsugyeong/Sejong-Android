@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
 import com.example.a22_2_sejong_project.DTO.UserDTO
 import com.example.a22_2_sejong_project.R
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_board_detail.*
 import kotlinx.android.synthetic.main.fragment_board_detail.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class BoardDetailFragment : Fragment() {
     var contentUid: String? = null
@@ -54,6 +56,8 @@ class BoardDetailFragment : Fragment() {
                 var userDTO = it.result.toObject(UserDTO::class.java)
                 binding.root.board_detail_userName.text = userDTO?.nickname
                 binding.root.board_detail_major.text = userDTO?.major
+                // profile image
+                //Glide.with(this).load(userDTO?.프로필이미지링크).into(binding.root.board_detail_profileImage)
             }
         }
 
@@ -64,10 +68,26 @@ class BoardDetailFragment : Fragment() {
                 binding.root.board_detail_description.text = boardContentDTO?.description
                 binding.root.board_detail_timestamp.text = boardContentDTO?.timestamp
                 binding.root.board_detail_headCount.text = boardContentDTO?.currentHeadCount.toString() + "/" + boardContentDTO?.totalHeadCount.toString()
+                println("hey hey" + boardContentDTO?.contentType)
+                when(boardContentDTO?.contentType) {
+                    1 -> binding.root.board_detail_contentType.text = "모집"
+                    2 -> binding.root.board_detail_contentType.text = "참여"
+                    else -> binding.root.board_detail_contentType.text = "기타"
+                }
+
             }
         }
 
         binding.root.board_detail_group.setOnClickListener {
+            var groupMembers: ArrayList<String>? = null
+            firestore?.collection(boardCategory!!)?.document(destinationContentUid!!)?.get()?.addOnCompleteListener {
+                if(it.isSuccessful) {
+                    var boardContentDTO = it.result.toObject(BoardContentDTO::class.java)
+                    groupMembers = boardContentDTO?.groupMembers
+                }
+            }
+
+
             val menuList = arrayOf("오종석", "김해린", "안수경")
             val dialog = AlertDialog.Builder(
                 requireActivity(),
