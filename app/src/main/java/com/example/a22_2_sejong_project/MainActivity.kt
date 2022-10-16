@@ -1,5 +1,6 @@
 package com.example.a22_2_sejong_project
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.a22_2_sejong_project.board.BoardFragment
 import com.example.a22_2_sejong_project.chat.ChatFragment
 import com.example.a22_2_sejong_project.databinding.ActivityMainBinding
+import com.example.a22_2_sejong_project.databinding.LoginDialogBinding
 import com.example.a22_2_sejong_project.home.HomeFragment
 import com.example.a22_2_sejong_project.mypage.MyPageFragment
 import com.example.a22_2_sejong_project.program.ProgramFragment
@@ -17,6 +19,8 @@ import com.example.a22_2_sejong_project.utils.AddBoardArticleFragment
 import com.example.a22_2_sejong_project.utils.BoardDetailFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSelectedListener {
@@ -72,8 +76,24 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         }
         return false
     }
-    fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,fragment).commit()
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val uid = auth?.currentUser?.uid
+        val storageRef = FirebaseStorage.getInstance().reference.child("userProfileImages").child(uid!!)
+
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            storageRef.putFile(data?.data!!).continueWithTask {
+                return@continueWithTask storageRef.downloadUrl
+            }?. addOnSuccessListener {
+                val map = HashMap<String,Any>()
+                map["image"] = it.toString()
+                FirebaseFirestore.getInstance().collection("profileImages").document(uid).set(map)
+            }?. addOnFailureListener {
+                Toast.makeText(this,"프로필 변경에 실패했습니다.",Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     // 2초내 다시 클릭하면 앱 종료

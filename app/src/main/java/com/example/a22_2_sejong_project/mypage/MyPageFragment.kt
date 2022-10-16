@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.a22_2_sejong_project.DTO.UserDTO
 import com.example.a22_2_sejong_project.databinding.FragmentMyPageBinding
 import com.example.a22_2_sejong_project.login.SejongLoginActivity
@@ -22,15 +23,17 @@ class MyPageFragment : Fragment() {
     private val binding get() = _binding!!
     var auth : FirebaseAuth? = null
     var db : FirebaseFirestore? = null
+    var userId : String? = null// 다른 사람 or 내가 선택한 uid
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentMyPageBinding.inflate(inflater, container, false)
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        userId = arguments?.getString("uid")
 
-        if (arguments?.getString("uid") == auth?.currentUser?.uid) {
+        if (userId == auth?.currentUser?.uid) {
             myInfo(auth?.currentUser?.uid)
         } else {
-            othersInfo(arguments?.getString("uid"))
+            othersInfo(userId)
         }
 
 
@@ -41,7 +44,22 @@ class MyPageFragment : Fragment() {
             FirebaseAuth.getInstance().signOut()
             startActivity(Intent(context,SejongLoginActivity::class.java))
         }
+        getProfileImage()
         return binding.root
+    }
+
+    private fun getProfileImage() {
+        db?.collection("profileImages")?.document(userId!!)?.addSnapshotListener { value, error ->
+            if (value == null) {
+                return@addSnapshotListener
+            } else {
+                val url = value.data!!["image"]
+                activity?.apply {
+                    Glide.with(requireContext()).load(url).apply(RequestOptions().circleCrop()).into(binding.mypageProfileImage)
+
+                }
+            }
+        }
     }
 
     private fun othersInfo(uid: String?) {
@@ -72,22 +90,22 @@ class MyPageFragment : Fragment() {
         binding.mypageProfileImage.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
-            startActivityForResult(photoPickerIntent,0)
+            activity?.startActivityForResult(photoPickerIntent,0)
         }
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-            binding.mypageProfileImage.setImageURI(data?.data)
-            var map = mutableMapOf<String, Uri>()
-            map["profileUrl"] = data?.data!!
-            db?.collection("user")?.document(auth?.currentUser?.uid!!)?.update(map as Map<String, Any>)?.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Log.d("TAG","성공")
-                }
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+//            binding.mypageProfileImage.setImageURI(data?.data)
+//            var map = mutableMapOf<String, Uri>()
+//            map["profileUrl"] = data?.data!!
+//            db?.collection("user")?.document(auth?.currentUser?.uid!!)?.update(map as Map<String, Any>)?.addOnCompleteListener {
+//                if (it.isSuccessful) {
+//                    Log.d("TAG","성공")
+//                }
+//            }
+//        }
+//    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
