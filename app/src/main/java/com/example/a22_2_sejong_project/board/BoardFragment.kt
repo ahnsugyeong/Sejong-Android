@@ -173,7 +173,7 @@ class BoardFragment : Fragment() {
                 bundle.putString("boardCategory", collectionPath)
 
                 fragment.arguments = bundle
-                requireActivity().supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,fragment).addToBackStack(null).commit()
+                requireActivity().supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,fragment).commit()
             }
         }
 

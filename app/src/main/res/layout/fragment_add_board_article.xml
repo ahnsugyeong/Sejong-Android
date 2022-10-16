@@ -10,6 +10,7 @@
         android:id="@+id/board_article_top_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp">
+
         <ImageView
             android:id="@+id/board_article_back_btn"
             android:layout_width="wrap_content"
@@ -125,6 +126,7 @@
         android:layout_below="@id/people_num_layout"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -163,10 +165,10 @@
                 android:id="@+id/add_article_description"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:gravity="top"
                 android:hint="@string/hint_article_description"
-                android:privateImeOptions="defaultInputted=korean"
 
-                />
+                android:privateImeOptions="defaultInputted=korean" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>

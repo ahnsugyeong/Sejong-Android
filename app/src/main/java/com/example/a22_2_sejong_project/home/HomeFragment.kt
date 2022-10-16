@@ -24,10 +24,12 @@ class HomeFragment : Fragment() {
             val doc = Jsoup.connect(url).get()
             val programList = doc.select("li div.content")
             val posterUrl = doc.select("li div.cover")
+            val href = doc.select("ul.columns-4 a")
+
 
             this@HomeFragment.activity?.runOnUiThread {
                 binding.homeDodreamRv.apply {
-                    adapter = DodreamRvAdapter(requireContext(), programList, posterUrl)
+                    adapter = DodreamRvAdapter(requireContext(), programList, posterUrl, href)
                     layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
                 }
             }
