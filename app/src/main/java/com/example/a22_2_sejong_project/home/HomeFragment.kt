@@ -32,6 +32,7 @@ class HomeFragment : Fragment() {
                     adapter = DodreamRvAdapter(requireContext(), programList, posterUrl, href)
                     layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
                 }
+                binding.homePb.visibility = View.GONE
             }
         }).start()
 

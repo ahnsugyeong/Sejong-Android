@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".board.BoardFragment">
     <RelativeLayout
         android:id="@+id/program_top_layout"
@@ -17,6 +18,22 @@
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/program_tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/program_top_layout"
+        app:tabIndicatorColor="@color/main_blue"
+        app:tabSelectedTextColor="@color/main_blue"
+        app:tabTextColor="@color/black"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/program_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/program_tabLayout"
+        android:layout_marginTop="4dp" />
 
 
 </RelativeLayout>

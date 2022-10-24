@@ -10,6 +10,7 @@ import com.example.a22_2_sejong_project.databinding.ActivityAppLoginBinding
 import com.example.a22_2_sejong_project.databinding.ActivitySignupBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class SignupActivity : AppCompatActivity() {
     private var _Binding: ActivitySignupBinding? = null
@@ -111,7 +112,7 @@ class SignupActivity : AppCompatActivity() {
             "college" to binding.signupCollegeTv.text.toString(),
             "major" to binding.signupMajorTv.text.toString(),
             "note" to null,
-            "profileUrl" to null
+            "profileUrl" to "https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
         )
         db?.collection("user")?.document(auth?.currentUser?.uid!!)?.set(data)
             ?.addOnSuccessListener {

@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.a22_2_sejong_project.DTO.UserDTO
+import com.example.a22_2_sejong_project.R
 import com.example.a22_2_sejong_project.databinding.FragmentMyPageBinding
 import com.example.a22_2_sejong_project.login.SejongLoginActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -35,38 +36,19 @@ class MyPageFragment : Fragment() {
         } else {
             othersInfo(userId)
         }
-
-
-
         // 로그아웃
         binding.logout.setOnClickListener {
             Toast.makeText(context,"로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             FirebaseAuth.getInstance().signOut()
             startActivity(Intent(context,SejongLoginActivity::class.java))
+            activity?.finish()
         }
-        getProfileImage()
         return binding.root
     }
-
-    private fun getProfileImage() {
-        db?.collection("profileImages")?.document(userId!!)?.addSnapshotListener { value, error ->
-            if (value == null) {
-                return@addSnapshotListener
-            } else {
-                val url = value.data!!["image"]
-                activity?.apply {
-                    Glide.with(requireContext()).load(url).apply(RequestOptions().circleCrop()).into(binding.mypageProfileImage)
-
-                }
-            }
-        }
-    }
-
     private fun othersInfo(uid: String?) {
         Log.d("TAG","다른 유저 정보")
 
     }
-
     private fun myInfo(uid: String?) {
         Log.d("TAG","내 정보")
         db?.collection("user")?.document(uid!!)?.get()?.addOnCompleteListener {
@@ -82,8 +64,15 @@ class MyPageFragment : Fragment() {
                 } else {
                     binding.mypageNoteTv.text = userDTO?.note
                 }
-                if (userDTO?.profileUrl != null) {
-                    Glide.with(requireContext()).load(userDTO.profileUrl).into(binding.mypageProfileImage)
+                Glide.with(requireContext()).load(userDTO?.profileUrl).apply(RequestOptions().circleCrop()).into(binding.mypageProfileImage)
+            }
+        }
+        db?.collection("user")?.document(userId!!)?.addSnapshotListener { value, error ->
+            if (value == null) {
+                return@addSnapshotListener
+            } else {
+                activity?.apply {
+                    Glide.with(requireContext()).load(value.data!!["profileUrl"]).apply(RequestOptions().circleCrop()).into(binding.mypageProfileImage)
                 }
             }
         }
@@ -93,19 +82,6 @@ class MyPageFragment : Fragment() {
             activity?.startActivityForResult(photoPickerIntent,0)
         }
     }
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-//            binding.mypageProfileImage.setImageURI(data?.data)
-//            var map = mutableMapOf<String, Uri>()
-//            map["profileUrl"] = data?.data!!
-//            db?.collection("user")?.document(auth?.currentUser?.uid!!)?.update(map as Map<String, Any>)?.addOnCompleteListener {
-//                if (it.isSuccessful) {
-//                    Log.d("TAG","성공")
-//                }
-//            }
-//        }
-//    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
