@@ -82,25 +82,19 @@ class BoardDetailFragment : Fragment() {
         }
 
         binding.root.board_detail_group.setOnClickListener {
-            var groupMembers: ArrayList<String>? = null
+            var entries: List<String> = listOf()
             firestore?.collection(boardCategory!!)?.document(destinationContentUid!!)?.get()?.addOnCompleteListener {
                 if(it.isSuccessful) {
                     var boardContentDTO = it.result.toObject(BoardContentDTO::class.java)
-                    groupMembers = boardContentDTO?.groupMembers
+                    entries = boardContentDTO?.groupMembers?.toList()!!.map { "(${it.first}, ${it.second})" }
                 }
             }
-
-
-            val menuList = arrayOf("오종석", "김해린", "안수경")
             val dialog = AlertDialog.Builder(
                 requireActivity(),
                 android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar
             )
             dialog.setTitle("팀원 목록")
-                .setItems(menuList, DialogInterface.OnClickListener { dialogInterface, i ->
-                    // 클릭한 item의 마이페이지로 이동
-                    
-                })
+            dialog.setView(R.layout.group_dialog)
             dialog.show()
         }
         binding.boardDetailBackBtn.setOnClickListener {
