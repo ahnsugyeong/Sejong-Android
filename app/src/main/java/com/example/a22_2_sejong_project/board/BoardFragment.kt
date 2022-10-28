@@ -10,7 +10,10 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
+import com.example.a22_2_sejong_project.DTO.UserDTO
 import com.example.a22_2_sejong_project.MainActivity
 import com.example.a22_2_sejong_project.R
 
@@ -126,6 +129,19 @@ class BoardFragment : Fragment() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var viewholder = (holder as CustomViewHolder).itemView
 
+            // profile image
+            firestore?.collection("user")?.document(boardContentDTOs!![position].uId!!)?.get()
+                ?.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val userDTO = it.result.toObject(UserDTO::class.java)
+                        // profile image
+                        Glide.with(requireContext()).load(userDTO?.profileUrl)
+                            .apply(RequestOptions().circleCrop())
+                            .into(viewholder.item_board_main_profileImage)
+                    }
+                }
+
+
             // userId
             viewholder.item_board_main_userName.text = boardContentDTOs!![position].nickname
 
@@ -146,8 +162,6 @@ class BoardFragment : Fragment() {
             viewholder.item_board_main_heartNum.text =
                 boardContentDTOs!![position].favoriteCount.toString()
 
-            // nickname
-            // viewholder.item_board_main_userName.text = boardContentDTOs!![position].nickname
 
             // content type
             var tmp = boardContentDTOs!![position].contentType

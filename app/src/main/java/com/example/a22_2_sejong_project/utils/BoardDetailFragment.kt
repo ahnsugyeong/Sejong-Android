@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
 import com.example.a22_2_sejong_project.DTO.UserDTO
 import com.example.a22_2_sejong_project.R
@@ -57,7 +58,9 @@ class BoardDetailFragment : Fragment() {
                 binding.root.board_detail_userName.text = userDTO?.nickname
                 binding.root.board_detail_major.text = userDTO?.major
                 // profile image
-                //Glide.with(this).load(userDTO?.프로필이미지링크).into(binding.root.board_detail_profileImage)
+                Glide.with(requireContext()).load(userDTO?.profileUrl)
+                    .apply(RequestOptions().circleCrop())
+                    .into(binding.root.board_detail_profileImage)
             }
         }
 
