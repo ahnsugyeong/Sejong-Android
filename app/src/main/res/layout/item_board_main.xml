@@ -121,7 +121,7 @@
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
-                    android:src="@drawable/heart" />
+                    android:src="@drawable/heart_off" />
 
                 <TextView
                     android:id="@+id/item_board_main_heartNum"

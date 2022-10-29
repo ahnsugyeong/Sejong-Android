@@ -85,6 +85,11 @@ class BoardDetailFragment : Fragment() {
                     binding.root.board_detail_timestamp.text = boardContentDTO?.timestamp
                     binding.root.board_detail_headCount.text =
                         boardContentDTO?.currentHeadCount.toString() + "/" + boardContentDTO?.totalHeadCount.toString()
+                    if (boardContentDTO?.favorites?.containsKey(uid) == true) binding.root.board_detail_heartImg.setImageResource(R.drawable.heart_on)
+                    else binding.root.board_detail_heartImg.setImageResource(R.drawable.heart_off)
+                    binding.root.board_detail_heartNum.text = boardContentDTO?.favoriteCount.toString()
+                    binding.root.board_detail_commentNum.text = boardContentDTO?.commentCount.toString()
+
                     when (boardContentDTO?.contentType) {
                         1 -> binding.root.board_detail_contentType.text = "모집"
                         2 -> binding.root.board_detail_contentType.text = "참여"
@@ -121,6 +126,10 @@ class BoardDetailFragment : Fragment() {
                 }
         }
 
+        binding.root.board_detail_heart.setOnClickListener {
+            favoriteEvent()
+        }
+
         binding.boardDetailBackBtn.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
             requireActivity().supportFragmentManager.beginTransaction().replace(
@@ -136,7 +145,28 @@ class BoardDetailFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    fun favoriteEvent() {
+        var tsDoc = firestore?.collection(boardCategory!!)?.document(destinationContentUid!!)
+        firestore?.runTransaction { transaction ->
 
+            var boardContentDTO = transaction.get(tsDoc!!).toObject(BoardContentDTO::class.java)
+
+            if(boardContentDTO!!.favorites.containsKey(uid)) {
+                // when the button is clicked
+                boardContentDTO?.favoriteCount = boardContentDTO?.favoriteCount - 1
+                boardContentDTO?.favorites.remove(uid)
+                binding.root.board_detail_heartImg.setImageResource(R.drawable.heart_off)
+            } else {
+                // when the button is not clicked
+                boardContentDTO?.favoriteCount = boardContentDTO?.favoriteCount + 1
+                boardContentDTO?.favorites[uid!!] = true
+                binding.root.board_detail_heartImg.setImageResource(R.drawable.heart_on)
+            }
+            binding.root.board_detail_heartNum.text = boardContentDTO?.favoriteCount.toString()
+
+            transaction.set(tsDoc, boardContentDTO)
+        }
+    }
 
     inner class BoardGroupRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

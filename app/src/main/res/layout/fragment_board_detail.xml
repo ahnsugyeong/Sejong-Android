@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".utils.BoardDetailFragment">
+
     <RelativeLayout
         android:id="@+id/board_detail_top_layout"
         android:layout_width="match_parent"
@@ -28,6 +29,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -144,7 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="title"
-                android:textSize="16dp"
+                android:textSize="22dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -152,7 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:text="description"
-                android:textSize="14dp" />
+                android:textSize="17dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -167,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="2022.09.13 20:05:25"
-                    android:textSize="10dp" />
+                    android:textSize="13dp" />
 
                 <View
                     android:layout_width="0dp"
@@ -180,24 +182,33 @@
                     android:layout_gravity="right"
                     android:layout_marginRight="5dp">
 
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginTop="2dp"
-                        android:src="@drawable/heart" />
-
-                    <TextView
-                        android:id="@+id/board_detail_heartNum"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:text="0"
-                        android:textSize="10dp" />
+                        android:orientation="horizontal"
+                        android:id="@+id/board_detail_heart"
+                        >
+
+                        <ImageView
+                            android:id="@+id/board_detail_heartImg"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/heart_off" />
+
+                        <TextView
+                            android:id="@+id/board_detail_heartNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:text="0"
+                            android:textSize="20dp" />
+                    </LinearLayout>
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginLeft="7dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
                         android:src="@drawable/comment" />
 
@@ -207,7 +218,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:text="0"
-                        android:textSize="10dp" />
+                        android:textSize="20dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
