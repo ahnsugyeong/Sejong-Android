@@ -43,8 +43,9 @@ class BoardDetailFragment : Fragment() {
     var auth: FirebaseAuth? = null
     var uid: String? = null
     var boardCategory: String? = null
-    private var boardGroupUids: MutableList<String> = mutableListOf()
-    private var boardGroupPositions: MutableList<String> = mutableListOf()
+    private var groupMemberUIds: ArrayList<String> = arrayListOf()
+    private var groupMemberPositions: ArrayList<String> = arrayListOf()
+
 
     private var _binding: FragmentBoardDetailBinding? = null
     private val binding get() = _binding!!
@@ -61,8 +62,6 @@ class BoardDetailFragment : Fragment() {
         destinationUid = arguments?.getString("destinationUid")
         destinationContentUid = arguments?.getString("destinationContentUid")
         boardCategory = arguments?.getString("boardCategory")
-       // val boardGroupRecyclerViewAdapter = BoardGroupRecyclerViewAdapter()
-
 
         // board detail fragment
         firestore?.collection("user")?.document(destinationUid!!)?.get()?.addOnCompleteListener {
@@ -97,38 +96,29 @@ class BoardDetailFragment : Fragment() {
 
         // show group member
         binding.root.board_detail_group.setOnClickListener {
-            boardGroupUids.clear()
-            boardGroupPositions.clear()
+            groupMemberUIds!!.clear()
+            groupMemberPositions!!.clear()
 
-            boardGroupUids.add("uid1")
-            boardGroupUids.add("uid2")
-            boardGroupPositions.add("position1")
-            boardGroupPositions.add("position2")
-//            firestore?.collection(boardCategory!!)?.document(destinationContentUid!!)?.get()
-//                ?.addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        var boardContentDTO = it.result.toObject(BoardContentDTO::class.java)
-//                        boardGroupUids = boardContentDTO?.groupMembers?.keys?.toMutableList()!!
-//
-//                        for (key in boardGroupUids) {
-//                            boardGroupPositions.add(boardContentDTO?.groupMembers!![key]!!)
-//                        }
-//                    }
-//                }
+            firestore?.collection(boardCategory!!)?.document(destinationContentUid!!)?.get()
+                ?.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        var boardContentDTO = it.result.toObject(BoardContentDTO::class.java)
+                        groupMemberUIds = boardContentDTO?.groupMemberUIds!!
+                        groupMemberPositions = boardContentDTO?.groupMemberPositions!!
 
-            val dialog = AlertDialog.Builder(
-                requireActivity(),
-                android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar
-            )
-            val dialogView = layoutInflater.inflate(R.layout.group_dialog, null)
+                        val dialog = AlertDialog.Builder(
+                            requireActivity(),
+                            android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar
+                        )
+                        val dialogView = layoutInflater.inflate(R.layout.group_dialog, null)
+                        dialog.setTitle("팀원 목록")
+                        dialog.setView(dialogView)
+                        dialogView.group_dialog_recyclerview.layoutManager = LinearLayoutManager(activity)
+                        dialogView.group_dialog_recyclerview.adapter = BoardGroupRecyclerViewAdapter()
 
-            dialog.setTitle("팀원 목록")
-            dialog.setView(dialogView)
-            dialogView.group_dialog_recyclerview.layoutManager = LinearLayoutManager(activity)
-            dialogView.group_dialog_recyclerview.adapter = BoardGroupRecyclerViewAdapter()
-
-
-            dialog.show()
+                        dialog.show()
+                    }
+                }
         }
 
         binding.boardDetailBackBtn.setOnClickListener {
@@ -161,25 +151,25 @@ class BoardDetailFragment : Fragment() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
             var viewholder = (holder as CustomViewHolder).itemView
+            val memberNickname: String? = null
+            for (member in groupMemberUIds) {
+                firestore?.collection("user")?.document(member)?.get()
+                    ?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val userDTO = it.result.toObject(UserDTO::class.java)
+                            // profile image
+                            Glide.with(requireContext()).load(userDTO?.profileUrl)
+                                .apply(RequestOptions().circleCrop())
+                                .into(viewholder.item_group_dialog_profileImage)
 
-//            for (member in boardGroupUids) {
-//                firestore?.collection("user")?.document(member)?.get()
-//                    ?.addOnCompleteListener {
-//                        if (it.isSuccessful) {
-//                            val userDTO = it.result.toObject(UserDTO::class.java)
-//                            // profile image
-//                            Glide.with(requireContext()).load(userDTO?.profileUrl)
-//                                .apply(RequestOptions().circleCrop())
-//                                .into(viewholder.item_group_dialog_profileImage)
-//                        }
-//                    }
-//            }
-
-            // userId
-            viewholder.item_group_dialog_nickname.text = boardGroupUids[position]
+                            // userId
+                            viewholder.item_group_dialog_nickname.text = userDTO?.nickname
+                        }
+                    }
+            }
 
             // position
-            viewholder.item_group_dialog_position.text = boardGroupPositions[position]
+            viewholder.item_group_dialog_position.text = groupMemberPositions!![position]
 
 
             // 게시물 클릭시
@@ -189,10 +179,9 @@ class BoardDetailFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return boardGroupUids.size
+            return groupMemberUIds!!.size
         }
     }
-
 
 }
 

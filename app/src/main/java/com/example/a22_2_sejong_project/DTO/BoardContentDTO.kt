@@ -15,7 +15,8 @@ data class BoardContentDTO(
     var contentType: Int = 1,  // 참여 or 모집,
     var userId: String? = null,
     var contentId: String? = null,
-    var groupMembers: MutableMap<String, String>? = HashMap()
+    var groupMemberUIds: ArrayList<String>? = null,
+    var groupMemberPositions: ArrayList<String>? = null
 
 
 ) {
