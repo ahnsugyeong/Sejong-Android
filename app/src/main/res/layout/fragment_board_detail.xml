@@ -22,12 +22,24 @@
             android:src="@drawable/ic_back" />
 
         <TextView
+            android:id="@+id/board_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="게시판"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/board_detail_menu_btn"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="140dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@+id/board_logo"
+            android:src="@drawable/ic_menu" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -183,11 +195,10 @@
                     android:layout_marginRight="5dp">
 
                     <LinearLayout
+                        android:id="@+id/board_detail_heart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:id="@+id/board_detail_heart"
-                        >
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/board_detail_heartImg"
@@ -232,6 +243,7 @@
         android:text="@string/comment"
         android:textSize="14dp"
         android:textStyle="bold" />
+
     <FrameLayout
         android:id="@+id/board_detail_container_layout"
         android:layout_width="match_parent"

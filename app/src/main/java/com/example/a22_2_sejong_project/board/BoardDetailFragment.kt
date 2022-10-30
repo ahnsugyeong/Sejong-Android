@@ -3,8 +3,11 @@ package com.example.a22_2_sejong_project.board
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +20,7 @@ import com.example.a22_2_sejong_project.databinding.FragmentBoardDetailBinding
 import com.example.a22_2_sejong_project.home.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.board_delete_dialog.view.*
 
 import kotlinx.android.synthetic.main.fragment_board_detail.*
 import kotlinx.android.synthetic.main.fragment_board_detail.view.*
@@ -26,7 +30,7 @@ import kotlinx.android.synthetic.main.item_group_dialog.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class BoardDetailFragment : Fragment() {
+class BoardDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     var contentUid: String? = null
     var destinationUid: String? = null
     var destinationContentUid: String? = null
@@ -132,6 +136,16 @@ class BoardDetailFragment : Fragment() {
             ).commit()
         }
 
+        if (destinationUid!! != uid!!) {
+            binding.root.board_detail_menu_btn.visibility = View.INVISIBLE
+        } else {
+            binding.root.board_detail_menu_btn.visibility = View.VISIBLE
+            binding.root.board_detail_menu_btn.setOnClickListener {
+                showPopup(binding.root.board_detail_menu_btn)
+            }
+        }
+
+
         // show comment fragment
 
         val boardCommentFragment = BoardCommentFragment()
@@ -151,14 +165,12 @@ class BoardDetailFragment : Fragment() {
         _binding = null
     }
     fun favoriteEvent() {
-        println("heart clicked!!!!!")
         var tsDoc = firestore?.collection(boardCategory!!)?.document(destinationContentUid!!)
         firestore?.runTransaction { transaction ->
 
             var boardContentDTO = transaction.get(tsDoc!!).toObject(BoardContentDTO::class.java)
 
             if(boardContentDTO!!.favorites.containsKey(uid)) {
-                println("heart off")
                 // when the button is clicked
                 boardContentDTO?.favoriteCount = boardContentDTO?.favoriteCount - 1
                 binding.root.board_detail_heartNum.text = boardContentDTO?.favoriteCount.toString()
@@ -171,9 +183,7 @@ class BoardDetailFragment : Fragment() {
                 boardContentDTO?.favorites[uid!!] = true
                 binding.root.board_detail_heartImg.setImageResource(R.drawable.heart_on)
             }
-
             transaction.set(tsDoc, boardContentDTO)
-            println("heart transaction set")
         }
 
     }
@@ -221,6 +231,62 @@ class BoardDetailFragment : Fragment() {
         override fun getItemCount(): Int {
             return groupMemberUIds!!.size
         }
+    }
+    private fun showPopup(v: View) {
+        val popup = PopupMenu(context, v)
+        popup.menuInflater.inflate(R.menu.menu_option, popup.menu)
+        popup.setOnMenuItemClickListener(this)
+        popup.show()
+    }
+
+    override fun onMenuItemClick(p0: MenuItem?): Boolean {
+        when(p0?.itemId) {
+            R.id.menu_update -> {
+                // update 화면 띄우기
+                val updateBoardArticleFragment = UpdateBoardArticleFragment()
+                val bundle = Bundle()
+                bundle.putString("contentUid", destinationContentUid)
+                bundle.putString("boardCategory", boardCategory)
+                updateBoardArticleFragment.arguments = bundle
+
+                requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+                requireActivity().supportFragmentManager.beginTransaction().replace(
+                    R.id.main_container_layout,
+                    updateBoardArticleFragment
+                ).commit()
+            }
+            R.id.menu_delete -> {
+                // dialog 띄우기
+                val dialogBuilder = AlertDialog.Builder(
+                    requireActivity()
+                )
+                val alertDialog = dialogBuilder.create()
+                val dialogView = layoutInflater.inflate(R.layout.board_delete_dialog, null)
+                alertDialog.setView(dialogView)
+                alertDialog.show()
+
+                dialogView.board_delete_dialog_ok_button.setOnClickListener {
+                    // 해당 게시물 삭제
+                    deleteArticle()
+                    alertDialog.dismiss()
+                }
+                dialogView.board_delete_dialog_cancel_button.setOnClickListener {
+                    alertDialog.dismiss()
+                }
+            }
+        }
+        return p0 != null
+    }
+
+    fun deleteArticle() {
+        val bucket = firestore?.collection(boardCategory!!)
+        bucket!!.document(destinationContentUid!!).delete()
+        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+        requireActivity().supportFragmentManager.beginTransaction().replace(
+            R.id.main_container_layout,
+            BoardFragment()
+        ).commit()
+
     }
 
 }

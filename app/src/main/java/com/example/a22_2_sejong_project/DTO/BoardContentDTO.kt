@@ -12,7 +12,7 @@ data class BoardContentDTO(
     var currentHeadCount: Int = 1, // 현재 모집된 인원
     var totalHeadCount: Int? = null,   // 총 모집할 인원
     var favorites: MutableMap<String, Boolean> = HashMap(), // 좋아요 누른 사람
-    var contentType: Int = 1,  // 참여 or 모집,
+    var contentType: Int = 1,  // 참여 or 모집 or 기타
     var userId: String? = null,
     var contentId: String? = null,
     var groupMemberUIds: ArrayList<String>? = null,
