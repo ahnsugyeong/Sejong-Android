@@ -81,16 +81,18 @@
             android:id="@+id/item_board_main_title"
             android:layout_width="match_parent"
             android:layout_height="25dp"
+            android:layout_marginTop="5dp"
             android:text="title"
-            android:textSize="16dp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         <TextView
+            android:layout_marginTop="3dp"
             android:id="@+id/item_board_main_description"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="description"
-            android:textSize="14dp" />
+            android:textSize="15dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:text="2022.09.13 20:05:25"
-                android:textSize="10dp" />
+                android:textSize="13dp" />
 
             <View
                 android:layout_width="0dp"
@@ -119,8 +121,9 @@
                 android:layout_marginRight="5dp">
 
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:id="@+id/board_main_heart"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:src="@drawable/heart_off" />
 
                 <TextView
@@ -129,12 +132,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:text="0"
-                    android:textSize="10dp" />
+                    android:textSize="15dp" />
 
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_marginLeft="7dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="10dp"
                     android:src="@drawable/comment" />
 
                 <TextView
@@ -143,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:text="0"
-                    android:textSize="10dp" />
+                    android:textSize="15dp" />
             </LinearLayout>
 
         </LinearLayout>

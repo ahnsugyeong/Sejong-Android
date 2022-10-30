@@ -18,12 +18,11 @@ data class BoardContentDTO(
     var groupMemberUIds: ArrayList<String>? = null,
     var groupMemberPositions: ArrayList<String>? = null
 
-
 ) {
     data class Comment(
         var uid: String? = null,
         var userId: String? = null,
         var comment: String? = null,
-        var timestamp: Long? = null
+        var timestamp: String? = null
     )
 }

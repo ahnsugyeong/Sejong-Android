@@ -1,14 +1,11 @@
-package com.example.a22_2_sejong_project.utils
+package com.example.a22_2_sejong_project.board
 
-import android.app.Activity
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,22 +13,16 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
 import com.example.a22_2_sejong_project.DTO.UserDTO
 import com.example.a22_2_sejong_project.R
-import com.example.a22_2_sejong_project.board.BoardFragment
 import com.example.a22_2_sejong_project.databinding.FragmentBoardDetailBinding
-import com.example.a22_2_sejong_project.databinding.FragmentBoardMainBinding
-import com.example.a22_2_sejong_project.databinding.GroupDialogBinding
+import com.example.a22_2_sejong_project.home.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 
 import kotlinx.android.synthetic.main.fragment_board_detail.*
 import kotlinx.android.synthetic.main.fragment_board_detail.view.*
 import kotlinx.android.synthetic.main.group_dialog.*
 import kotlinx.android.synthetic.main.group_dialog.view.*
 import kotlinx.android.synthetic.main.item_group_dialog.view.*
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -54,6 +45,7 @@ class BoardDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         _binding = FragmentBoardDetailBinding.inflate(inflater, container, false)
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -62,6 +54,8 @@ class BoardDetailFragment : Fragment() {
         destinationUid = arguments?.getString("destinationUid")
         destinationContentUid = arguments?.getString("destinationContentUid")
         boardCategory = arguments?.getString("boardCategory")
+
+
 
         // board detail fragment
         firestore?.collection("user")?.document(destinationUid!!)?.get()?.addOnCompleteListener {
@@ -138,6 +132,17 @@ class BoardDetailFragment : Fragment() {
             ).commit()
         }
 
+        // show comment fragment
+
+        val boardCommentFragment = BoardCommentFragment()
+        val bundle = Bundle()
+        bundle.putString("contentUid", destinationContentUid)
+        bundle.putString("boardCategory", boardCategory)
+        boardCommentFragment.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.board_detail_container_layout,
+            boardCommentFragment
+        ).commit()
+
         return binding.root
     }
 
@@ -146,26 +151,31 @@ class BoardDetailFragment : Fragment() {
         _binding = null
     }
     fun favoriteEvent() {
+        println("heart clicked!!!!!")
         var tsDoc = firestore?.collection(boardCategory!!)?.document(destinationContentUid!!)
         firestore?.runTransaction { transaction ->
 
             var boardContentDTO = transaction.get(tsDoc!!).toObject(BoardContentDTO::class.java)
 
             if(boardContentDTO!!.favorites.containsKey(uid)) {
+                println("heart off")
                 // when the button is clicked
                 boardContentDTO?.favoriteCount = boardContentDTO?.favoriteCount - 1
+                binding.root.board_detail_heartNum.text = boardContentDTO?.favoriteCount.toString()
                 boardContentDTO?.favorites.remove(uid)
                 binding.root.board_detail_heartImg.setImageResource(R.drawable.heart_off)
             } else {
                 // when the button is not clicked
                 boardContentDTO?.favoriteCount = boardContentDTO?.favoriteCount + 1
+                binding.root.board_detail_heartNum.text = boardContentDTO?.favoriteCount.toString()
                 boardContentDTO?.favorites[uid!!] = true
                 binding.root.board_detail_heartImg.setImageResource(R.drawable.heart_on)
             }
-            binding.root.board_detail_heartNum.text = boardContentDTO?.favoriteCount.toString()
 
             transaction.set(tsDoc, boardContentDTO)
+            println("heart transaction set")
         }
+
     }
 
     inner class BoardGroupRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+
+    tools:context=".board.BoardCommentFragment">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/board_comment_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+
+        android:gravity="center|bottom"
+        android:orientation="horizontal"
+
+        >
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_board_comment_textInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            app:boxStrokeColor="@color/main_blue"
+            app:counterEnabled="false"
+            app:hintTextColor="@color/main_blue">
+
+            <EditText
+                android:id="@+id/add_board_comment_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_comment"
+
+                android:privateImeOptions="defaultInputted=korean" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+
+            android:id="@+id/board_comment_send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            android:text="전송" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

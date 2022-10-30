@@ -1,6 +1,5 @@
-package com.example.a22_2_sejong_project.utils
+package com.example.a22_2_sejong_project.board
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import com.example.a22_2_sejong_project.DTO.BoardContentDTO
 import com.example.a22_2_sejong_project.DTO.UserDTO
 import com.example.a22_2_sejong_project.MainActivity
 import com.example.a22_2_sejong_project.R
-import com.example.a22_2_sejong_project.board.BoardFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -25,7 +23,7 @@ class AddBoardArticleFragment : Fragment() {
     private var storage: FirebaseStorage? = null
     private var firestore: FirebaseFirestore? = null
     var auth: FirebaseAuth? = null
-    var type: Int? = 0
+    var type: Int? = 1
     var rootView: View? = null
     var boardCategory: String? = null
     var uid: String? = null
@@ -67,6 +65,10 @@ class AddBoardArticleFragment : Fragment() {
                 R.id.radio_etc -> {
                     type = 3
                     headcount_textView.text = "기타 인원: "
+                }
+                else -> {
+                    type = 1
+                    headcount_textView.text = "모집 인원: "
                 }
             }
         }
