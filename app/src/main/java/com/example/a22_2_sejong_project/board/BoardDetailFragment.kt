@@ -54,7 +54,7 @@ class BoardDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
         auth = FirebaseAuth.getInstance()
-        contentUid = arguments?.getString("contentUid")
+        //contentUid = arguments?.getString("contentUid")
         destinationUid = arguments?.getString("destinationUid")
         destinationContentUid = arguments?.getString("destinationContentUid")
         boardCategory = arguments?.getString("boardCategory")
@@ -244,10 +244,12 @@ class BoardDetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             R.id.menu_update -> {
                 // update 화면 띄우기
                 val updateBoardArticleFragment = UpdateBoardArticleFragment()
-                val bundle = Bundle()
-                bundle.putString("contentUid", destinationContentUid)
-                bundle.putString("boardCategory", boardCategory)
-                updateBoardArticleFragment.arguments = bundle
+                val update_bundle = Bundle()
+
+                update_bundle.putString("destinationUid", destinationUid)
+                update_bundle.putString("boardCategory", boardCategory)
+                update_bundle.putString("destinationContentUid", destinationContentUid)
+                updateBoardArticleFragment.arguments = update_bundle
 
                 requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
                 requireActivity().supportFragmentManager.beginTransaction().replace(

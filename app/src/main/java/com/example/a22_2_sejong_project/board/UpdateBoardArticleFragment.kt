@@ -31,6 +31,11 @@ class UpdateBoardArticleFragment : Fragment() {
     var boardContentDTO: BoardContentDTO? = null
     var contentUid: String? = null
     var rootView: View? = null
+
+    init {
+        contentUid = arguments?.getString("destinationContentUid")
+        boardCategory = arguments?.getString("boardCategory")
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,32 +47,32 @@ class UpdateBoardArticleFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         uid = auth?.currentUser?.uid
-        contentUid = arguments?.getString("contentUid")
+        contentUid = arguments?.getString("destinationContentUid")
         boardCategory = arguments?.getString("boardCategory")
-        println("content Uid = " + contentUid)
-        println("boardCategory = " + boardCategory)
-        firestore?.collection(boardCategory!!)?.document(contentUid!!)?.get()?.addOnCompleteListener {
-            if (it.isSuccessful) {
-                boardContentDTO = it.result.toObject(BoardContentDTO::class.java)
-                when(boardContentDTO?.contentType) {
-                    1 -> {
-                        rootView?.update_radio_button_group?.check(R.id.update_radio_recruit)
-                        rootView?.board_update_headcount_textView?.text = "모집 인원: "
+
+        firestore?.collection(boardCategory!!)?.document(contentUid!!)?.get()
+            ?.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    boardContentDTO = it.result.toObject(BoardContentDTO::class.java)
+                    when (boardContentDTO?.contentType) {
+                        1 -> {
+                            rootView?.update_radio_button_group?.check(R.id.update_radio_recruit)
+                            rootView?.board_update_headcount_textView?.text = "모집 인원: "
+                        }
+                        2 -> {
+                            rootView?.update_radio_button_group?.check(R.id.update_radio_participate)
+                            rootView?.board_update_headcount_textView?.text = "참여 인원: "
+                        }
+                        3 -> {
+                            rootView?.update_radio_button_group?.check(R.id.update_radio_etc)
+                            rootView?.board_update_headcount_textView?.text = "기타 인원: "
+                        }
                     }
-                    2 -> {
-                        rootView?.update_radio_button_group?.check(R.id.update_radio_participate)
-                        rootView?.board_update_headcount_textView?.text = "참여 인원: "
-                    }
-                    3 -> {
-                        rootView?.update_radio_button_group?.check(R.id.update_radio_etc)
-                        rootView?.board_update_headcount_textView?.text = "기타 인원: "
-                    }
+                    rootView?.board_update_headcount_editText?.setText(boardContentDTO?.totalHeadCount?.toString())
+                    rootView?.update_article_title?.setText(boardContentDTO?.title)
+                    rootView?.update_article_description?.setText(boardContentDTO?.description)
                 }
-                rootView?.board_update_headcount_editText?.setText(boardContentDTO?.totalHeadCount?.toString())
-                rootView?.update_article_title?.setText(boardContentDTO?.title)
-                rootView?.update_article_description?.setText(boardContentDTO?.description)
             }
-        }
 
         rootView?.update_article_btn_upload?.setOnClickListener {
             contentUpdate()
@@ -81,8 +86,8 @@ class UpdateBoardArticleFragment : Fragment() {
             ).commit()
         }
 
-        rootView?.update_radio_button_group?.setOnCheckedChangeListener{ group, checkedId ->
-            when(checkedId) {
+        rootView?.update_radio_button_group?.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
                 R.id.update_radio_recruit -> {
                     type = 1
                     board_update_headcount_textView.text = "모집 인원: "
@@ -113,55 +118,31 @@ class UpdateBoardArticleFragment : Fragment() {
             boardContentDTO?.title = update_article_title.text.toString()
             boardContentDTO?.description = update_article_description.text.toString()
             boardContentDTO?.contentType = type!!
-            if(board_update_headcount_editText.toString() == "") boardContentDTO?.totalHeadCount = -1
-            else boardContentDTO?.totalHeadCount = board_update_headcount_editText.text.toString().toInt()
+            if (board_update_headcount_editText.toString() == "") boardContentDTO?.totalHeadCount =
+                -1
+            else boardContentDTO?.totalHeadCount =
+                board_update_headcount_editText.text.toString().toInt()
 
-            firestore?.collection(boardCategory!!)?.document(boardContentDTO?.contentId!!)?.set(boardContentDTO!!)
+            firestore?.collection(boardCategory!!)?.document(boardContentDTO?.contentId!!)
+                ?.set(boardContentDTO!!)
             transaction.set(tsDoc, boardContentDTO!!)
-            println("update success")
 
             var bundle = Bundle()
-            bundle.putString("boardCategoryReturn", boardCategory)
+            bundle.putString("boardCategory", arguments?.getString("boardCategory"))
+            bundle.putString("destinationContentUid", arguments?.getString("destinationContentUid"))
+            bundle.putString("destinationUid", arguments?.getString("destinationUid"))
+
             val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-            val BoardArticleFragment = BoardFragment()
-            BoardArticleFragment.arguments = bundle
-            transaction.replace(R.id.main_container_layout, BoardArticleFragment)
+            val boardDetailFragment = BoardDetailFragment()
+            boardDetailFragment.arguments = bundle
+
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            transaction.replace(R.id.main_container_layout, boardDetailFragment)
                 .addToBackStack(null)
                 .commit()
         }
-
-//        firestore?.collection("user")?.document(uid!!)?.get()?.addOnCompleteListener {
-//            if(it.isSuccessful) {
-//                // timestamp 수정된 시간 or 생성된 시간?
-//                // var timestamp = SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(Date())
-//                // boardContentDTO?.timestamp = timestamp
-//
-//                // 수정된 글 정보 DTO에 저장
-//                boardContentDTO?.title = update_article_title.text.toString()
-//                boardContentDTO?.description = update_article_description.text.toString()
-//                boardContentDTO?.contentType = type!!
-//
-////                val userDTO = it.result.toObject(UserDTO::class.java)
-////                boardContentDTO?.uId = userDTO?.uid
-////                boardContentDTO?.nickname = userDTO?.nickname
-////                boardContentDTO?.contentId = boardContentDTO?.uId + boardContentDTO?.timestamp
-//
-//                if(headcount_editText.toString() == "") boardContentDTO?.totalHeadCount = -1
-//                else boardContentDTO?.totalHeadCount = headcount_editText.text.toString().toInt()
-//
-//                firestore?.collection(boardCategory!!)?.document(boardContentDTO?.contentId!!)?.set(boardContentDTO!!)
-//
-//                var bundle = Bundle()
-//                bundle.putString("boardCategoryReturn", boardCategory)
-//                val transaction = (activity as MainActivity).supportFragmentManager.beginTransaction()
-//                val BoardArticleFragment = BoardFragment()
-//                BoardArticleFragment.arguments = bundle
-//                transaction.replace(R.id.main_container_layout, BoardArticleFragment)
-//                    .addToBackStack(null)
-//                    .commit()
-//            }
-//        }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         rootView = null
