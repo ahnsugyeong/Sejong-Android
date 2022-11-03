@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.a22_2_sejong_project.R
 import com.example.a22_2_sejong_project.databinding.FragmentHomeBinding
+import com.example.a22_2_sejong_project.program.ProgramFragment
 import org.jsoup.Jsoup
 
 class HomeFragment : Fragment() {
@@ -51,6 +53,9 @@ class HomeFragment : Fragment() {
         binding.homeCard2.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://do.sejong.ac.kr"))
             startActivity(intent)
+        }
+        binding.homeMoreProgramBtn.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_container_layout,ProgramFragment())?.commit()
         }
     }
     override fun onDestroyView() {

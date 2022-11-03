@@ -21,6 +21,7 @@ class Learn : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentLearnBinding.inflate(inflater, container, false)
 
+
         Thread(Runnable {
             val url = "https://do.sejong.ac.kr/ko/program/learn"
             val doc = Jsoup.connect(url).get()
