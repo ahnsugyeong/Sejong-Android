@@ -16,6 +16,7 @@
         android:theme="@style/Theme.222_Sejong_Project"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
             android:name=".program.ProgramDetail"
             android:exported="false" />

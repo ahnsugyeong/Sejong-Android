@@ -5,25 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.a22_2_sejong_project.DTO.BoardContentDTO
+import com.example.a22_2_sejong_project.DTO.UserDTO
 import com.example.a22_2_sejong_project.MainActivity
 import com.example.a22_2_sejong_project.R
 
 import com.example.a22_2_sejong_project.databinding.FragmentBoardMainBinding
-import com.example.a22_2_sejong_project.utils.AddBoardArticleFragment
-import com.example.a22_2_sejong_project.utils.BoardDetailFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.main.fragment_board_main.*
 import kotlinx.android.synthetic.main.fragment_board_main.view.*
-import kotlinx.android.synthetic.main.item_board_main.*
 import kotlinx.android.synthetic.main.item_board_main.view.*
 
 
@@ -126,6 +122,19 @@ class BoardFragment : Fragment() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var viewholder = (holder as CustomViewHolder).itemView
 
+            // profile image
+            firestore?.collection("user")?.document(boardContentDTOs!![position].uId!!)?.get()
+                ?.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val userDTO = it.result.toObject(UserDTO::class.java)
+                        // profile image
+                        Glide.with(requireContext()).load(userDTO?.profileUrl)
+                            .apply(RequestOptions().circleCrop())
+                            .into(viewholder.item_board_main_profileImage)
+                    }
+                }
+
+
             // userId
             viewholder.item_board_main_userName.text = boardContentDTOs!![position].nickname
 
@@ -146,8 +155,6 @@ class BoardFragment : Fragment() {
             viewholder.item_board_main_heartNum.text =
                 boardContentDTOs!![position].favoriteCount.toString()
 
-            // nickname
-            // viewholder.item_board_main_userName.text = boardContentDTOs!![position].nickname
 
             // content type
             var tmp = boardContentDTOs!![position].contentType
@@ -161,6 +168,11 @@ class BoardFragment : Fragment() {
             if (totalHeadCount_tmp == -1) viewholder.item_board_main_headCount.text = ""
             else viewholder.item_board_main_headCount.text =
                 currentHeadCount_tmp.toString() + "/" + totalHeadCount_tmp.toString()
+
+            // favorite
+            if(boardContentDTOs!![position].favorites.containsKey(uid!!)) viewholder.board_main_heart.setImageResource(R.drawable.heart_on)
+            else viewholder.board_main_heart.setImageResource(R.drawable.heart_off)
+
 
             // 게시물 클릭시
             viewholder.item_board_main_object.setOnClickListener { v ->
