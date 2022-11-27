@@ -9,7 +9,8 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.a22_2_sejong_project.board.BoardFragment
-import com.example.a22_2_sejong_project.chat.ChatFragment
+//import com.example.a22_2_sejong_project.chat.ChatFragment
+import com.example.a22_2_sejong_project.chat.UserFragment
 import com.example.a22_2_sejong_project.databinding.ActivityMainBinding
 import com.example.a22_2_sejong_project.home.HomeFragment
 import com.example.a22_2_sejong_project.mypage.MyPageFragment
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
                     return true
                 }
                 R.id.nav_item3 -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,ChatFragment()).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.main_container_layout,UserFragment()).commit()
                     return true
                 }
                 R.id.nav_item4 -> {

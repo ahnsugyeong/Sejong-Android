@@ -10,8 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="60dp">
 
-
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="15dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_back" />
         <TextView
+            android:id="@+id/top_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -19,10 +27,11 @@
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="675dp"
         android:layout_weight="1"
         android:divider="#ffffff"
         android:dividerHeight="0dp" />
