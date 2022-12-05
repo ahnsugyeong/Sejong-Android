@@ -67,7 +67,7 @@ class ChatAdapter(private val context: Context, private val chatList: ArrayList<
 
         } else {
             holder as OtherChatViewHolder
-            holder.userName.text = chatList[position].userName
+            holder.userName.text = chatList[position].senderName
             holder.message.text = chatList[position].message
             holder.time.text = chatList[position].time
             Glide.with(context).load(chatList[position].profileImgUrl)

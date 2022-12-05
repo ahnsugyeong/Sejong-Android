@@ -11,4 +11,4 @@ package com.example.a22_2_sejong_project.chat
 //}
 
 data class Chat(var senderId:String = "", var receiverId:String = "",
-                var message:String = "", var userName:String = "", var time: String = "", var profileImgUrl: String? = null)
+                var message:String = "", var senderName:String = "", var time: String = "", var profileImgUrl: String? = null)

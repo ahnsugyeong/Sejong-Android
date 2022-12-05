@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.a22_2_sejong_project.MainActivity
 import com.example.a22_2_sejong_project.databinding.FragmentUserBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
@@ -55,6 +56,8 @@ class UserFragment: Fragment() {
         binding.recyclerview.adapter = adapter
 
         currentUser = Firebase.auth.currentUser?.toString()
+
+        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
         
 
         FirebaseFirestore.getInstance().collection("user").get().addOnSuccessListener { result ->
@@ -67,7 +70,9 @@ class UserFragment: Fragment() {
 
                 val item: User
                 item = User(name, img, note, uid)
-                userList.add(item)
+//                userList.add(item)
+                if (uid != firebase.uid) userList.add(item)
+                println("$uid ${firebase.uid} !!!!")
 
             }
             adapter.notifyDataSetChanged()
@@ -130,11 +135,12 @@ class UserFragment: Fragment() {
 //            bundle.putString("userId", user.uid)
 //
 //        }
+
             holder.layoutUser.setOnClickListener {
                 val intent = Intent(context, MessageActivity::class.java)
                 intent.putExtra("uid",user.uid)
                 intent.putExtra("userName",user.name)
-                intent.putExtra("profileImgUrl", user.profileImgUrl)
+
                 context?.startActivity(intent)
             }
         }
